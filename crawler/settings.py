@@ -27,4 +27,4 @@ ELASTICSEARCH_UNIQ_KEY = 'url'
 #USER_AGENT = 'crawler (+http://www.yourdomain.com)'
 
 #DESABLE REDIRECT
-REDIRECT_ENABLED = False
+#REDIRECT_ENABLED = False

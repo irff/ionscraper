@@ -14,5 +14,8 @@ class NewsItem(scrapy.Item):
     title = scrapy.Field()
     url = scrapy.Field()
     publish = scrapy.Field()
+    author = scrapy.Field()
     content = scrapy.Field()
     timestamp = scrapy.Field()
+    provider = scrapy.Field()
+    location = scrapy.Field()
