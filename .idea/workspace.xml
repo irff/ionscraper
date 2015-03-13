@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed08c38d-169a-4a43-97d1-9e7f558a2d41" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/crawler/spiders/helper.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/crawler/spiders/helpertest.py" />
-      <change type="DELETED" beforePath="D:\Lab\crawler\crawler\spiders\NewsSpider.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crawler/NewsItem.py" afterPath="$PROJECT_DIR$/crawler/NewsItem.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crawler/settings.py" afterPath="$PROJECT_DIR$/crawler/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crawler/spiders/KompasSpider.py" afterPath="$PROJECT_DIR$/crawler/spiders/KompasSpider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="crawler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,8 +49,8 @@
       <file leaf-file-name="KompasSpider.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/crawler/spiders/KompasSpider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.39297658" vertical-offset="1170" max-vertical-offset="1768">
-              <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
+            <state vertical-scroll-proportion="1.3695652" vertical-offset="660" max-vertical-offset="1768">
+              <caret line="87" column="39" selection-start-line="87" selection-start-column="39" selection-end-line="87" selection-end-column="39" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -101,8 +98,8 @@
         <option value="$PROJECT_DIR$/crawler/settings.py" />
         <option value="$PROJECT_DIR$/crawler/NewsItem.py" />
         <option value="$PROJECT_DIR$/crawler/spiders/helpertest.py" />
-        <option value="$PROJECT_DIR$/crawler/spiders/KompasSpider.py" />
         <option value="$PROJECT_DIR$/crawler/spiders/helper.py" />
+        <option value="$PROJECT_DIR$/crawler/spiders/KompasSpider.py" />
       </list>
     </option>
   </component>
@@ -384,14 +381,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crawler/NewsItem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crawler/spiders/helpertest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
@@ -412,10 +401,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/crawler/NewsItem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/crawler/spiders/KompasSpider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.39297658" vertical-offset="1170" max-vertical-offset="1768">
-          <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
+        <state vertical-scroll-proportion="1.3695652" vertical-offset="660" max-vertical-offset="1768">
+          <caret line="87" column="39" selection-start-line="87" selection-start-column="39" selection-end-line="87" selection-end-column="39" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

@@ -18,7 +18,7 @@ If you want crawling and follow link , Change Kompas
     Change start_urls with 'http://kompas.com'
     Change 'parse' method to 'parse_item'
 """
-class KompasSpider(Spider):
+class KompasSpider(CrawlSpider):
     name = "kompas"
     allowed_domains = [
         "nasional.kompas.com",
@@ -32,7 +32,7 @@ class KompasSpider(Spider):
         "bisniskeuangan.kompas.com",
         "tekno.kompas.com"
         ]
-    start_urls = ["http://edukasi.kompas.com/read/2015/03/12/19493501/Anak.di.Bawah.Usia.3.Tahun.Juga.Perlu.Pendidikan?utm_campaign=Ktkwp&utm_medium=box&utm_source=WP"]
+    start_urls = ["http://kompas.com"]
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
@@ -45,7 +45,7 @@ class KompasSpider(Spider):
     if use Spider, change function to 'parse'
     if use CrawlSpider, change function to 'parse_item'
     """
-    def parse(self, response):
+    def parse_item(self, response):
         self.log('Hi, this is an item page! %s' % response.url)
         news = NewsItem()
         news['url'] = response.url
