@@ -5,7 +5,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.spider import Spider
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.exceptions import DropItem
-from datetime import datetime
+from datetime import datetime, timedelta
 import helper
 
 """
@@ -33,12 +33,12 @@ class KompasSpider(CrawlSpider):
         "tekno.kompas.com"
         ]
     start_urls = ["http://kompas.com"]
+
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
-        Rule(SgmlLinkExtractor(allow=('/index/', ), deny=('/reg/','/sso/','/login/'))),
-        Rule(SgmlLinkExtractor(allow=('/read/', )),follow=True, callback='parse_item'),
-
+        Rule(SgmlLinkExtractor(allow=('index', ), deny=('reg','sso','login','utm_source=wp'))),
+        Rule(SgmlLinkExtractor(allow=('read', )),follow=True, callback='parse_item'),
     )
 
     """
@@ -50,7 +50,7 @@ class KompasSpider(CrawlSpider):
         news = NewsItem()
         news['url'] = response.url
 
-        if 'login' in response.url:
+        if 'login' in response.url or 'utm_source=wp' in response.url or 'sso' in response.url or 'reg' in response.url:
             raise DropItem("URL not allowed")
 
         if 'tekno.kompas.com' in response.url:
@@ -64,7 +64,7 @@ class KompasSpider(CrawlSpider):
                 title = response.xpath('//h2/text()').extract()[0]
 
             if len(title):
-                news['title'] = title
+                news['title'] = helper.html_to_string(title)
             else:
                 raise DropItem("No title")
 
@@ -78,7 +78,7 @@ class KompasSpider(CrawlSpider):
             """Getting Publish date"""""
             publish = response.xpath('//div[@class="grey small mb2"]/text()').extract()
             if len(publish) > 0:
-                news['publish'] = helper.kompas_date(publish[0])
+                news['publish'] = helper.kompas_date(publish[0]) - timedelta(hours=7)
             else:
                 news['publish'] = "";
 

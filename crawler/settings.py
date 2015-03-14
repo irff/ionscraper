@@ -17,7 +17,7 @@ ITEM_PIPELINES = [
   'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline',
 ]
 
-ELASTICSEARCH_SERVER = 'localhost' 
+ELASTICSEARCH_SERVER = 'http://127.0.0.1' 
 ELASTICSEARCH_PORT = 9200 
 ELASTICSEARCH_INDEX = 'news'
 ELASTICSEARCH_TYPE = 'kompas'
@@ -28,3 +28,6 @@ ELASTICSEARCH_UNIQ_KEY = 'url'
 
 #DESABLE REDIRECT
 #REDIRECT_ENABLED = False
+
+#DELAY DOWNLOAD
+#DOWNLOAD_DELAY = 0.25
