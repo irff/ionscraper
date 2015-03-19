@@ -19,3 +19,7 @@ class NewsItem(scrapy.Item):
     timestamp = scrapy.Field()
     provider = scrapy.Field()
     location = scrapy.Field()
+
+    def __str__(self):
+        # only print out url after exiting the Pipeline
+        return "getting " + self['url']

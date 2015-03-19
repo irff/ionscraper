@@ -21,6 +21,8 @@ If you want crawling and follow link , Change Kompas
 class KompasSpider(CrawlSpider):
     name = "kompas"
     allowed_domains = [
+	    "kompas.com",
+		"indeks.kompas.com",
         "nasional.kompas.com",
         "regional.kompas.com",
         "megapolitan.kompas.com",
@@ -30,15 +32,28 @@ class KompasSpider(CrawlSpider):
         "sains.kompas.com",
         "edukasi.kompas.com",
         "bisniskeuangan.kompas.com",
-        "tekno.kompas.com"
+        "tekno.kompas.com",
+		"health.kompas.com",
         ]
-    start_urls = ["http://kompas.com"]
+    start_urls = [  "http://kompas.com",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=3&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=4&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=5&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=6&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=7&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=8&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=9&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=10&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=11&tahun=2008&pos=indeks",
+					#"http://indeks.kompas.com/?tanggal=1&bulan=12&tahun=2008&pos=indeks",
+	]
+    #start_urls = ["http://bola.kompas.com/read/2015/03/19/13304388/Apollon.Tak.Lolos.Seleksi.Persib.Cari.Striker.Baru"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
-        Rule(SgmlLinkExtractor(allow=('index', ), deny=('reg','sso','login','utm_source=wp'))),
-        Rule(SgmlLinkExtractor(allow=('read', )),follow=True, callback='parse_item'),
+        Rule(SgmlLinkExtractor(allow=('index','p=',), deny=('reg','sso','login','utm_source=wp')),follow=True),
+        Rule(SgmlLinkExtractor(allow=('read/', 'read/xml/',), deny=('reg','sso','login','utm_source=wp')),follow=True, callback='parse_item'),
     )
 
     """
@@ -60,6 +75,8 @@ class KompasSpider(CrawlSpider):
             """Getting Title"""
             if 'bola.kompas.com' in response.url:
                 title = response.xpath('//html/body/div/div[6]/div/div[1]/div[1]/div[2]/h2').extract()[0]
+            elif 'health.kompas.com' in response.url:
+                title = response.xpath('//html/body/div[3]/div[4]/div[4]/h1').extract()[0]
             else:
                 title = response.xpath('//h2/text()').extract()[0]
 
