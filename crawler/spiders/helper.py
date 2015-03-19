@@ -13,8 +13,6 @@ def kompas_date(plain_string):
     if plain_string == None:
         return None
 
-    plain_string = html_to_string(plain_string)
-
     string_date = plain_string[plain_string.find(",") + 2 : plain_string.find("|") - 1]
     string_time = plain_string[plain_string.find("|") + 2 : len(plain_string)]
 
