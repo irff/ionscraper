@@ -44,7 +44,18 @@ Hello guys, here's the list of online media we have to scrape
 - http://news.nationalgeographic.com/
 - http://www.smh.com.au/
 
-HELLO
+## Metadata
+
+Here's the required metadata for each article:
+
+- title
+- date_published
+- content
+- url
+- author (if any)
+- editor (if any)
+
+## Instruction
 
 Run ElasticSearch
 Install scrapy, then run 'scrapy crawl news'
