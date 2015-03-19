@@ -18,7 +18,7 @@ If you want crawling and follow link , Change Kompas
     Change start_urls with 'http://kompas.com'
     Change 'parse' method to 'parse_item'
 """
-class KompasSpider(CrawlSpider):
+class KompasSpider(Spider):
     name = "kompas"
     allowed_domains = [
 	    "kompas.com",
@@ -35,7 +35,7 @@ class KompasSpider(CrawlSpider):
         "tekno.kompas.com",
 		"health.kompas.com",
         ]
-    start_urls = [  "http://kompas.com",
+    #start_urls = [  "http://kompas.com",
 					#"http://indeks.kompas.com/?tanggal=1&bulan=3&tahun=2008&pos=indeks",
 					#"http://indeks.kompas.com/?tanggal=1&bulan=4&tahun=2008&pos=indeks",
 					#"http://indeks.kompas.com/?tanggal=1&bulan=5&tahun=2008&pos=indeks",
@@ -46,8 +46,9 @@ class KompasSpider(CrawlSpider):
 					#"http://indeks.kompas.com/?tanggal=1&bulan=10&tahun=2008&pos=indeks",
 					#"http://indeks.kompas.com/?tanggal=1&bulan=11&tahun=2008&pos=indeks",
 					#"http://indeks.kompas.com/?tanggal=1&bulan=12&tahun=2008&pos=indeks",
-	]
-    #start_urls = ["http://bola.kompas.com/read/2015/03/19/13304388/Apollon.Tak.Lolos.Seleksi.Persib.Cari.Striker.Baru"]
+	#]
+    
+	start_urls = ["http://bola.kompas.com/read/2015/03/19/13304388/Apollon.Tak.Lolos.Seleksi.Persib.Cari.Striker.Baru"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
@@ -60,7 +61,7 @@ class KompasSpider(CrawlSpider):
     if use Spider, change function to 'parse'
     if use CrawlSpider, change function to 'parse_item'
     """
-    def parse_item(self, response):
+    def parse(self, response):
         self.log('Hi, this is an item page! %s' % response.url)
         news = NewsItem()
         news['url'] = response.url
