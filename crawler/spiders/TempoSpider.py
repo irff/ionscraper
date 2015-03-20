@@ -23,10 +23,7 @@ If you want crawling and follow link , Change Kompas
 class TempoSpider(CrawlSpider):
     name = "tempo"
     allowed_domains = ["tempo.co","komunika.tempo.co",]
-    #"http://komunika.tempo.co/read/news/2015/02/04/273639939/ujian-nasional-online-jangan-sampai-server-ngadat",
-    #"http://www.tempo.co/read/news/2015/03/19/063651357/Jusuf-Kalla-Pelaporan-Majalah-Tempo-Urusan-Dewan-Pers",
-    #"http://komunika.tempo.co/read/news/2015/02/04/273639932/cara-menteri-arief-gaet-1-juta-wisman-per-bulan",
-    start_urls = ["http://tempo.co"]
+    start_urls = ["tempo.co"]
 
     rules = (
         Rule(SgmlLinkExtractor(allow=('indeks'), deny=('reg','sso','login','utm_source=wp')),follow=True),
@@ -47,24 +44,21 @@ class TempoSpider(CrawlSpider):
             raise DropItem("URL not allowed")
 
         if 'komunika' in response.url:
-            title = helper.html_to_string(response.xpath("//*[@id='main-left-620']/div/div[1]/div[1]/h4").extract()[0])
-            content = helper.paragraph_aggregator(response.xpath("//*[@id='main-left-620']/div/div[1]/div[1]/p").extract())
-            publish =  helper.html_to_string(response.xpath("//*[@id='main-left-620']/div/div[1]/div[1]/div[1]").extract()[0])
-            author = content.rsplit('.',1)[1]
-            location = helper.html_to_string(response.xpath("//*[@id='main-left-620']/div/div[1]/div[1]/p[2]/span[2]/strong").extract()[0])
-            content = content.split('-',1)[1]
-            content = content.rsplit('.',1)[0]
+            title = helper.html_to_string(response.xpath("//h4[1]").extract()[0])
+            content = helper.html_to_string(helper.item_merge(response.xpath("//*[@class='artikel']/p").extract()))
+            content = content.split('-',1)[1].rsplit('.',1)[0]
+            publish =  helper.html_to_string(response.xpath("//*[@class='date']").extract()[0])
+            location = helper.html_to_string(response.xpath("//strong").extract()[1])
+            author = helper.html_to_string(response.xpath("//strong").extract()[-2])
             publish = helper.tempo_komunika_date(publish)
         else:
-            title = helper.html_to_string(response.xpath("//*[@id='content']/h1").extract()[0])
-            content = helper.html_to_string(response.xpath("//*[@id='content']/div[5]/p").extract()[0])
-            publish =  helper.kompas_date(helper.html_to_string(response.xpath("//*[@id='content']/div[2]").extract()[0]))
-            author = response.xpath("//*[@id='content']/div[5]/p[2]/strong[3]").extract()[0]
-            location = helper.html_to_string(response.xpath("//*[@id='content']/div[5]/p[2]/strong[2]").extract()[0])
-            content = content.split('-',1)[1]
-            content = content.rsplit('.',1)[0]
-            author = helper.html_to_string(author)
-
+            title = helper.html_to_string(response.xpath("//*[@class='title']").extract()[0])
+            content = helper.html_to_string(helper.item_merge(response.xpath("//*[@class='artikel']/p").extract()))
+            author = content.rsplit('.',1)[1]
+            content = content.split('-',1)[1].rsplit('.',1)[0]
+            publish =  helper.kompas_date(helper.html_to_string(response.xpath("//*[@class='submitted']").extract()[0]))
+            location = helper.html_to_string(response.xpath("//strong").extract()[-2])
+            
         news['title'] = title
         news['content'] = content
         news['publish'] = publish

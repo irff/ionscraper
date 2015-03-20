@@ -8,11 +8,17 @@ def html_to_string(string_data):
     data = lxml.html.fromstring(string_data)
     return lxml.html.tostring(data, method="text", encoding=unicode)
 
-def paragraph_aggregator(paragraphs):
+def item_merge(items):
     result = ""
-    for i in paragraphs:
+    for i in items:
         result = result + html_to_string(i)
     return result
+
+def last_item(items):
+    result = ""
+    for i in items:
+        result = items
+    return result    
 
 def formatted_date(year,month,day,hour,minute):
     datetime_string = ""
