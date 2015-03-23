@@ -18,12 +18,7 @@ def last_item(items):
     result = ""
     for i in items:
         result = items
-    return result    
-
-def formatted_date(year,month,day,hour,minute):
-    datetime_string = ""
-    datetime_string = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00.000"
-    return datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S.%f")
+    return result
 
 def tempo_komunika_date(plain_string):
     plain_string = plain_string.replace("\n","").replace("\t","")
@@ -34,24 +29,10 @@ def tempo_komunika_date(plain_string):
     minute = "00"
     return formatted_date(year,month,day,hour,minute)
 
-def kompas_date(plain_string):
-    if plain_string == None:
-        return None
-
-    plain_string = html_to_string(plain_string)
-
-    string_date = plain_string[plain_string.find(",") + 2 : plain_string.find("|") - 1]
-    string_time = plain_string[plain_string.find("|") + 2 : len(plain_string)]
-
-    date = string_date.split(" ")
-    day = date[0]
-    year = date[2]
-    ms = date[1]
-    month = get_month(ms)
-    hour = string_time[0:2]
-    minute = string_time[3:5]
-
-    return formatted_date(year,month,day,hour,minute)
+def formatted_date(year,month,day,hour,minute):
+    datetime_string = ""
+    datetime_string = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00.000"
+    return datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S.%f")
 
 def get_month(ms):
     if ms == "Januari" or ms == "Jan":
