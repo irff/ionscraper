@@ -18,7 +18,8 @@ If you want crawling and follow link , Change Kompas
     Change start_urls with 'http://kompas.com'
     Change 'parse' method to 'parse_item'
 """
-class KompasSpider(Spider):
+
+class KompasSpider(CrawlSpider):
     name = "kompas"
     allowed_domains = [
 	    "kompas.com",
@@ -40,20 +41,8 @@ class KompasSpider(Spider):
         "properti.kompas.com",
         "travel.kompas.com",
         ]
-    # start_urls = [  "http://kompas.com",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=3&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=4&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=5&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=6&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=7&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=8&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=9&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=10&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=11&tahun=2008&pos=indeks",
-	# 				#"http://indeks.kompas.com/?tanggal=1&bulan=12&tahun=2008&pos=indeks",
-	# ]
 
-    start_urls = ["http://tekno.kompas.com/read/2015/03/22/08090057/Kinerja.Ponsel.Oppo.Tertipis.Apakah.Kencang."]
+    start_urls = ["http://kompas.com"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
@@ -66,7 +55,7 @@ class KompasSpider(Spider):
     if use Spider, change function to 'parse'
     if use CrawlSpider, change function to 'parse_item'
     """
-    def parse(self, response):
+    def parse_item(self, response):
         self.log('Hi, this is an item page! %s' % response.url)
         news = NewsItem()
         news['url'] = response.url
@@ -97,7 +86,20 @@ class KompasSpider(Spider):
             yield self.parse_item_default(response, news)
         elif "tekno.kompas.com" in response.url:
             yield self.parse_item_tekno(response, news)
-
+        elif "entertainment.kompas.com" in response.url:
+            yield self.parse_item_entertainment(response, news)
+        elif "otomotif.kompas.com" in response.url:
+            yield self.parse_item_otomotif(response, news)
+        elif "health.kompas.com" in response.url:
+            yield self.parse_item_health(response, news)
+        elif "female.kompas.com" in response.url:
+            yield  self.parse_item_female(response, news)
+        elif "properti.kompas.com" in response.url:
+            yield self.parse_item_properti(response, news)
+        elif "travel.kompas.com" in response.url:
+            yield self.parse_item_travel(response, news)
+        else:
+            yield self.parse_item_default(response, news)
 
     def parse_item_default(self, response, news):
         news['title'] = helper.html_to_string(response.xpath("//h2").extract()[0])
@@ -105,15 +107,15 @@ class KompasSpider(Spider):
 
         author = response.xpath("//html/body/div[1]/div[6]/div/div[1]/div[3]/div[3]/div[2]/div[2]/table/tbody/tr[1]/td[2]/text()").extract();
         if len(author) > 0:
-            news['author'] = author
+            news['author'] = author[0]
         else:
             news['author'] = " "
 
-        date = response.xpath('//div[@class="grey small mb2"]/text()').extract()
+        date = response.xpath("//div[@class='grey small mb2']/text()").extract()
         if len(date) > 0:
             news['publish'] = self.kompas_date(date[0])
         else:
-            raise DropItem("Publish date not found")
+            news['publish'] = self.kompas_date_from_url(response.url)
 
         location = response.xpath("//span[@class='kcmread1114']/strong[1]/text()").extract()
         if len(location) > 0:
@@ -132,7 +134,7 @@ class KompasSpider(Spider):
 
         author = response.xpath("//div[@class='editor_artikel_status_artikel']/a[1]/text()").extract();
         if len(author) > 0:
-            news['author'] = author
+            news['author'] = author[0]
         else:
             news['author'] = " "
 
@@ -143,7 +145,7 @@ class KompasSpider(Spider):
             news['publish'] = self.kompas_date(date_time)
             # news['publish'] = date_time
         else:
-            raise DropItem("Publish date not found")
+            news['publish'] = self.kompas_date_from_url(response.url)
 
         # tekno.kompas.com not have location
         news['location'] = " "
@@ -151,19 +153,172 @@ class KompasSpider(Spider):
         return news
 
     def parse_item_entertainment(self, response, news):
-        yield news
+        news['title'] = helper.html_to_string(response.xpath("//span[@class='judul judul_artikel2011']/text()").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='isi_berita pt_5']").extract()[0])
+
+        author = response.xpath("//span[@class='c_abu01_kompas2011'][1]/text()").extract();
+        if len(author) > 0 and "WIB" not in author[0]:
+            news['author'] = author[0]
+        else:
+            author_down = response.xpath("]//span[@class='c_abu01_kompas2011'][2]/text()").extract();
+            if len(author_down) > 0:
+                news['author'] = author_down[0]
+            else:
+                news['author'] = " "
+
+        date = response.xpath("//span[@class='c_abu01_kompas2011'][1]/text()").extract()
+        if len(date) > 0 and "WIB" in date[0]:
+            news['publish'] = self.kompas_date(date[0])
+        else:
+            date_down = response.xpath("//span[@class='c_abu01_kompas2011'][2]/text()").extract();
+            if len(date_down) > 0:
+                news['publish'] = self.kompas_date(date_down[0])
+            else:
+                news['publish'] = self.kompas_date_from_url(response.url)
+
+        location = response.xpath("//div[@class='isi_berita pt_5']/strong/text()").extract()
+        if len(location) > 0:
+            news['location'] = location[0][0:location[0].find(',')]
+        else:
+            if "KOMPAS.com" in news['content']:
+                news['location'] = news['content'][0:news['content'].find(',')]
+            else:
+                news['location'] = " "
+
+        return news
 
     def parse_item_otomotif(self, response, news):
-        yield news
+        news['title'] = helper.html_to_string(response.xpath("//div[@class='baca-content']/h1").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='div-read']").extract()[0])
+
+        author = response.xpath("//div[@class='penulis-editor']/table/tbody/tr[2]/td[2]/text()").extract();
+        if len(author) > 0:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
+        date = response.xpath("//div[@class='grey small mb2']/text()").extract()
+        if len(date) > 0:
+            news['publish'] = self.kompas_date(date[0])
+        else:
+            news['publish'] = self.kompas_date_from_url(response.url)
+
+        location = response.xpath("//div[@class='div-read']/strong/text()").extract()
+        if len(location) > 0:
+            news['location'] = location[0][0:location[0].find(',')]
+        else:
+            if "KOMPAS.com" in news['content']:
+                news['location'] = news['content'][0:news['content'].find(',')]
+            else:
+                news['location'] = " "
+        return news
 
     def parse_item_health(self, response, news):
-        yield news
+        news['title'] = helper.html_to_string(response.xpath("//div[@class='isi_artikel']/h1").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='isi_berita pt_5']").extract()[0])
+
+        author = response.xpath("//div[@class='left']/div[1]/span[1]/text()").extract();
+        if len(author) > 0 and "WIB" not in author[0]:
+            news['author'] = author[0]
+        else:
+            author_down = response.xpath("//div[@class='left']/div[2]/span[1]/text()").extract();
+            if len(author_down) > 0:
+                news['author'] = author_down[0]
+            else:
+                news['author'] = " "
+
+        date = response.xpath("//div[@class='left']/div[1]/span[1]/text()").extract()
+        if len(date) > 0 and "WIB" in date[0]:
+            news['publish'] = self.kompas_date(date[0])
+        else:
+            date_down = response.xpath("//div[@class='left']/div[1]/span[2]/text()").extract();
+            if len(date_down) > 0:
+                news['publish'] = self.kompas_date(date_down[0])
+            else:
+                news['publish'] = self.kompas_date_from_url(response.url)
+
+        location = response.xpath("//div[@class='isi_berita pt_5']/p/strong/text()").extract()
+        if len(location) > 0:
+            news['location'] = location[0][0:location[0].find(',')]
+        else:
+            if "KOMPAS.com" in news['content']:
+                news['location'] = news['content'][0:news['content'].find(',')]
+            else:
+                news['location'] = " "
+        return news
 
     def parse_item_female(self, response, news):
-        yield news
+        news['title'] = helper.html_to_string(response.xpath("//div[@class='pt_20']/div[2]").extract()[0])
+        news['content'] = response.xpath("//div[@id='article_body']/p/text()").extract()[0]
+
+        author = response.xpath("//*[@id='article_body']/div[8]/text()").extract();
+        if len(author) > 0:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
+        date = response.xpath("//*[@id='wrap-skin']/div/div[2]/div/div[1]/div[8]/div[3]/div[4]/div[1]/span").extract()
+        if len(date) > 0:
+            news['publish'] = self.kompas_date(date[0])
+        else:
+            news['publish'] = self.kompas_date_from_url(response.url)
+
+        # female.kompas.com not have location
+        news['location'] = " "
+
+        return news
 
     def parse_item_properti(self, response, news):
-        yield news
+        news['title'] = helper.html_to_string(response.xpath("//div[@class='judul_artikel2011 pb_10 pt_10']").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='isi_berita pt_5']").extract()[0])
+
+        author = response.xpath("//div[@class='left arial']/div/span[1]/text()").extract();
+        if len(author) > 0:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
+        date = response.xpath("//div[@class='left arial']/div/span[2]/text()").extract()
+        if len(date) > 0:
+            news['publish'] = self.kompas_date(date[0])
+        else:
+            news['publish'] = self.kompas_date_from_url(response.url)
+
+        location = response.xpath("//div[@class='isi_berita pt_5']/strong/text()").extract()
+        if len(location) > 0:
+            news['location'] = location[0][0:location[0].find(',')]
+        else:
+            if "KOMPAS.com" in news['content']:
+                news['location'] = news['content'][0:news['content'].find(',')]
+            else:
+                news['location'] = " "
+        return news
+
+    def parse_item_travel(self, response, news):
+        news['title'] = helper.html_to_string(response.xpath("//h2").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='kcm-read-content-text']/div[2]").extract()[0])
+
+        author = response.xpath("html/body/div[2]/div[5]/div/div[1]/div[2]/div[3]/div[2]/div[5]/table/tbody/tr[1]/td[2]/text()").extract();
+        if len(author) > 0:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
+        date = response.xpath("//div[@class='grey small mb2']/text()").extract()
+        if len(date) > 0:
+            news['publish'] = self.kompas_date(date[0])
+        else:
+            news['publish'] = self.kompas_date_from_url(response.url)
+
+        location = response.xpath("//div[@class='kcm-read-content-text']/div[2]/p/strong/text()").extract()
+        if len(location) > 0:
+            news['location'] = location[0][0:location[0].find(',')]
+        else:
+            if "KOMPAS.com" in news['content']:
+                news['location'] = news['content'][0:news['content'].find(',')]
+            else:
+                news['location'] = " "
+        return news
 
     def kompas_date(self, plain_string):
         if plain_string == None:
@@ -182,7 +337,7 @@ class KompasSpider(Spider):
         hour = string_time[0:2]
         minute = string_time[3:5]
 
-        return helper.formatted_date(year,month,day,hour,minute)
+        return helper.formatted_date(year,month,day,hour,minute) - timedelta(hours=-7)
 
     def kompas_date_tekno(self, string_date, string_time):
         if string_date == None or string_time == None:
@@ -196,4 +351,11 @@ class KompasSpider(Spider):
         hour = string_time[0:2]
         minute = string_time[3:5]
 
-        return helper.formatted_date(year,month,day,hour,minute)
+        return helper.formatted_date(year,month,day,hour,minute) - timedelta(hours=-7)
+
+    def kompas_date_from_url(self, url):
+        if url == None:
+            return None
+
+        u = url.split("/")
+        return helper.formatted_date(u[4], u[5], u[6], "00", "00") - timedelta(hours=-7)
