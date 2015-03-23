@@ -2,7 +2,7 @@
 Online Media Scraper
 
 ## Online Media List
-Hello guys, here's the list of online media we have to scrape
+List of media
 
 ### Indonesian Media
 - http://www.antaranews.com/
@@ -25,10 +25,10 @@ Hello guys, here's the list of online media we have to scrape
 - http://okezone.com/
 - http://www.pikiran-rakyat.com/
 - http://www.rmol.co/
-- http://www.republika.co.id/
+X http://www.republika.co.id/
 - http://www.suara.com/
 - http://swa.co.id/
-- http://www.tempo.co/
+X http://www.tempo.co/
 - http://www.viva.co.id/
 
 ### English Media
@@ -56,6 +56,33 @@ Here's the required metadata for each article:
 - editor (if any)
 
 ## Instruction
+For testing a single page
+Go to spiders directory
+`$ cd crawler/spiders`
 
-Run ElasticSearch
-Install scrapy, then run 'scrapy crawl news'
+List all avaliable spiders
+
+```bash
+$ ls | grep "Spider.py$"
+KompasSpider.py
+RepublikaSpider.py
+TempoSpider.py
+```
+
+Run `scrapy crawl [spider_name]`
+
+```bash
+$ scrapy crawl republika
+2015-03-24 01:06:24+0700 [republika] ERROR: Error processing 
+{    'author': news's author,
+	 'content': news's content,
+	 'location': news's location,
+	 'provider': news's provider,
+	 'publish': news's published time,
+	 'timestamp': news's scrapped time,
+	 'title': news's title,
+	 'url': 'news's url
+}
+```
+The `ERROR` message above was produced because we didn't setup the Elasticsearch server(for testing purpose), so we don't have to worry about that.
+

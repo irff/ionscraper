@@ -47,7 +47,7 @@ class TempoSpider(CrawlSpider):
             title = helper.html_to_string(response.xpath("//h4[1]").extract()[0])
             content = helper.html_to_string(helper.item_merge(response.xpath("//*[@class='artikel']/p").extract()))
             content = content.split('-',1)[1].rsplit('.',1)[0]
-            publish =  helper.html_to_string(response.xpath("//*[@class='date']").extract()[0])
+            publish = helper.html_to_string(response.xpath("//*[@class='date']").extract()[0])
             location = helper.html_to_string(response.xpath("//strong").extract()[1])
             author = helper.html_to_string(response.xpath("//strong").extract()[-2])
             publish = helper.tempo_komunika_date(publish)

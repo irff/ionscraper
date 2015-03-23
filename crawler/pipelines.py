@@ -8,4 +8,4 @@
 
 class CrawlerPipeline(object):
     def process_item(self, item, spider):
-        return item.strip()
+        return item.strip().decode('unicode_escape').encode('ascii','ignore')
