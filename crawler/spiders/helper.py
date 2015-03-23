@@ -1,4 +1,4 @@
-__author__ = 'Kandito Agung'
+__author__ = 'Kandito Agung, Zaka Zaidan'
 
 import lxml.etree
 import lxml.html
@@ -14,14 +14,11 @@ def item_merge(items):
         result = result + html_to_string(i)
     return result
 
-def last_item(items):
-    result = ""
-    for i in items:
-        result = items
-    return result
+def clear_item(item):
+    return item.replace("\n","").replace("\t","")
 
 def tempo_komunika_date(plain_string):
-    plain_string = plain_string.replace("\n","").replace("\t","")
+    plain_string = clear_item(plain_string)
     day = plain_string[:2]
     month = get_month(plain_string[2:-4])
     year =  plain_string[-4:]
@@ -35,27 +32,27 @@ def formatted_date(year,month,day,hour,minute):
     return datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S.%f")
 
 def get_month(ms):
-    if ms == "Januari" or ms == "Jan":
+    if ms in ["Januari","Jan","January"]:
         return "01"
-    elif ms == "Februari" or ms == "Feb":
+    elif ms in ["Februari","Feb","February"]:
         return "02"
-    elif ms == "Maret" or ms == "Mar":
+    elif ms in ["Maret","Mar","March"]:
         return "03"
-    elif ms == "April" or ms == "Apr":
+    elif ms in ["April","Apr"]:
         return "04"
-    elif ms == "Mei" or ms == "May":
+    elif ms in ["Mei","May"]:
         return "05"
-    elif ms == "Juni" or ms == "Jun":
+    elif ms in ["Juni","Jun","June"]:
         return "06"
-    elif ms == "Juli" or ms == "Jul":
+    elif ms in ["Juli","Jul","July"]:
         return "07"
-    elif ms == "Agustus" or ms == "Agt":
+    elif ms in ["Agustus","Agt","Aug","August"]:
         return "08"
-    elif ms == "September" or ms == "Sep":
+    elif ms in ["September","Sep","Sept"]:
         return "09"
-    elif ms == "Oktober" or ms =="Okt":
+    elif ms in ["Oktober","Okt","Oct","October"]:
         return "10"
-    elif ms == "November" or ms == "Nov":
+    elif ms in ["November","Nov"]:
         return "11"
-    elif ms == "Desember" or ms == "Des":
+    elif ms in ["Desember","Des","Dec","December"]:
         return "12"
