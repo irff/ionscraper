@@ -25,10 +25,10 @@ List of media
 - http://okezone.com/
 - http://www.pikiran-rakyat.com/
 - http://www.rmol.co/
-X http://www.republika.co.id/
+- X http://www.republika.co.id/
 - http://www.suara.com/
 - http://swa.co.id/
-X http://www.tempo.co/
+- X http://www.tempo.co/
 - http://www.viva.co.id/
 
 ### English Media

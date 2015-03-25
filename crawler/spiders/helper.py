@@ -2,11 +2,23 @@ __author__ = 'Kandito Agung, Zaka Zaidan'
 
 import lxml.etree
 import lxml.html
+from lxml.html.clean import Cleaner
+import re
 from datetime import datetime
 
 def html_to_string(string_data):
+    string_data = clear_script(string_data)
     data = lxml.html.fromstring(string_data)
-    return lxml.html.tostring(data, method="text", encoding=unicode)
+    data = lxml.html.tostring(data, method="text", encoding=unicode)
+    return re.sub(' +',' ',data)
+    
+def clear_script(string_data):
+    cleaner = Cleaner()
+    cleaner.javascript = True
+    cleaner.style = True
+
+    data = lxml.html.fromstring(string_data)
+    return lxml.html.tostring(cleaner.clean_html(data))
 
 def item_merge(items):
     result = ""
@@ -15,7 +27,7 @@ def item_merge(items):
     return result
 
 def clear_item(item):
-    return item.replace("\n","").replace("\t","")
+    return item.encode('ascii','ignore').replace("\n","").replace("\t","").replace("\r","")
 
 def tempo_komunika_date(plain_string):
     plain_string = clear_item(plain_string)
