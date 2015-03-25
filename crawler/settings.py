@@ -19,8 +19,8 @@ ITEM_PIPELINES = [
 
 ELASTICSEARCH_SERVER = 'http://127.0.0.1' 
 ELASTICSEARCH_PORT = 9200 
-ELASTICSEARCH_INDEX = 'news'
-ELASTICSEARCH_TYPE = 'kompas'
+ELASTICSEARCH_INDEX = 'langgar'
+ELASTICSEARCH_TYPE = 'news'
 ELASTICSEARCH_UNIQ_KEY = 'url'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

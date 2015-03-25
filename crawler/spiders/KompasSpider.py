@@ -1,3 +1,5 @@
+__author__ = 'Kandito Agung'
+
 import scrapy
 from scrapy import log
 from crawler.NewsItem import NewsItem
@@ -40,6 +42,8 @@ class KompasSpider(CrawlSpider):
         "female.kompas.com",
         "properti.kompas.com",
         "travel.kompas.com",
+        "foto.kompas.com",
+        "video.kompas.com",
         ]
 
     start_urls = ["http://kompas.com"]
@@ -47,8 +51,8 @@ class KompasSpider(CrawlSpider):
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
-        Rule(SgmlLinkExtractor(allow=('indeks','p=',), deny=('reg','sso','login','utm_source=wp')),follow=True),
-        Rule(SgmlLinkExtractor(allow=('read/', 'read/xml/',), deny=('reg','sso','login','utm_source=wp')),follow=True, callback='parse_item'),
+        Rule(SgmlLinkExtractor(allow=('indeks','p=',), deny=('sso','login.kompas.com','utm_source=wp')),follow=True),
+        Rule(SgmlLinkExtractor(allow=('read/', 'read/xml/','detail/'), deny=('/sso/','login.kompas.com','utm_source=wp')),follow=True, callback='parse_item'),
     )
 
     """
@@ -56,14 +60,14 @@ class KompasSpider(CrawlSpider):
     if use CrawlSpider, change function to 'parse_item'
     """
     def parse_item(self, response):
-        self.log('Hi, this is an item page! %s' % response.url)
+        log.msg("Get: %s" % response.url, level=log.DEBUG)
         news = NewsItem()
         news['url'] = response.url
         """Getting Timestamp and Provider"""
         news['timestamp']= datetime.utcnow()
         news['provider'] = "kompas.com"
 
-        if "login" in response.url or "utm_source=wp" in response.url or "sso" in response.url:
+        if "/login/" in response.url or "utm_source=wp" in response.url or "/sso/" in response.url:
             raise DropItem("URL not allowed")
 
         if "nasional.kompas.com" in response.url:
@@ -98,8 +102,12 @@ class KompasSpider(CrawlSpider):
             yield self.parse_item_properti(response, news)
         elif "travel.kompas.com" in response.url:
             yield self.parse_item_travel(response, news)
+        elif "foto.kompas.com" in response.url:
+            yield self.parse_item_foto(response, news)
+        elif "video.kompas.com" in response.url:
+            yield self.parse_item_video(response, news)
         else:
-            yield self.parse_item_default(response, news)
+            yield self.parse_item_universal(response, news)
 
     def parse_item_default(self, response, news):
         news['title'] = helper.html_to_string(response.xpath("//h2").extract()[0])
@@ -125,6 +133,8 @@ class KompasSpider(CrawlSpider):
                 news['location'] = news['content'][0:news['content'].find(',')]
             else:
                 news['location'] = " "
+
+        news['content'] = helper.clear_item(news['content'])
         return news
 
 
@@ -150,6 +160,7 @@ class KompasSpider(CrawlSpider):
         # tekno.kompas.com not have location
         news['location'] = " "
 
+        news['content'] = helper.clear_item(news['content'])
         return news
 
     def parse_item_entertainment(self, response, news):
@@ -185,6 +196,7 @@ class KompasSpider(CrawlSpider):
             else:
                 news['location'] = " "
 
+        news['content'] = helper.clear_item(news['content'])
         return news
 
     def parse_item_otomotif(self, response, news):
@@ -192,7 +204,7 @@ class KompasSpider(CrawlSpider):
         news['content'] = helper.html_to_string(response.xpath("//div[@class='div-read']").extract()[0])
 
         author = response.xpath("//div[@class='penulis-editor']/table/tbody/tr[2]/td[2]/text()").extract();
-        if len(author) > 0:
+        if len(author) > 0 and "WIB" not in author[0]:
             news['author'] = author[0]
         else:
             news['author'] = " "
@@ -211,6 +223,7 @@ class KompasSpider(CrawlSpider):
                 news['location'] = news['content'][0:news['content'].find(',')]
             else:
                 news['location'] = " "
+        news['content'] = helper.clear_item(news['content'])
         return news
 
     def parse_item_health(self, response, news):
@@ -245,6 +258,7 @@ class KompasSpider(CrawlSpider):
                 news['location'] = news['content'][0:news['content'].find(',')]
             else:
                 news['location'] = " "
+        news['content'] = helper.clear_item(news['content'])
         return news
 
     def parse_item_female(self, response, news):
@@ -252,7 +266,7 @@ class KompasSpider(CrawlSpider):
         news['content'] = response.xpath("//div[@id='article_body']/p/text()").extract()[0]
 
         author = response.xpath("//*[@id='article_body']/div[8]/text()").extract();
-        if len(author) > 0:
+        if len(author) > 0 and "WIB" not in author[0]:
             news['author'] = author[0]
         else:
             news['author'] = " "
@@ -266,6 +280,7 @@ class KompasSpider(CrawlSpider):
         # female.kompas.com not have location
         news['location'] = " "
 
+        news['content'] = helper.clear_item(news['content'])
         return news
 
     def parse_item_properti(self, response, news):
@@ -273,7 +288,7 @@ class KompasSpider(CrawlSpider):
         news['content'] = helper.html_to_string(response.xpath("//div[@class='isi_berita pt_5']").extract()[0])
 
         author = response.xpath("//div[@class='left arial']/div/span[1]/text()").extract();
-        if len(author) > 0:
+        if len(author) > 0 and "WIB" not in author[0]:
             news['author'] = author[0]
         else:
             news['author'] = " "
@@ -292,6 +307,8 @@ class KompasSpider(CrawlSpider):
                 news['location'] = news['content'][0:news['content'].find(',')]
             else:
                 news['location'] = " "
+
+        news['content'] = helper.clear_item(news['content'])
         return news
 
     def parse_item_travel(self, response, news):
@@ -304,7 +321,13 @@ class KompasSpider(CrawlSpider):
         else:
             news['author'] = " "
 
-        date = response.xpath("//div[@class='grey small mb2']/text()").extract()
+        author = response.xpath("html/body/div[2]/div[5]/div/div[1]/div[2]/div[3]/div[2]/div[5]/table/tbody/tr[1]/td[2]/text()").extract();
+        if len(author) > 0 and "WIB" not in author[0]:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
+        date = response.xpath("//div[@class='left arial']/div/span[2]/text()").extract()
         if len(date) > 0:
             news['publish'] = self.kompas_date(date[0])
         else:
@@ -318,6 +341,53 @@ class KompasSpider(CrawlSpider):
                 news['location'] = news['content'][0:news['content'].find(',')]
             else:
                 news['location'] = " "
+        news['content'] = helper.clear_item(news['content'])
+        return news
+
+    def parse_item_foto(self, response, news):
+        news['title'] = helper.html_to_string(response.xpath("//div[@class='title_artikel']/h1").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='artikel']/div[@class='isi_artikel']").extract()[0])
+
+        author = response.xpath("//div[@class='artikel']/div[@class='editor_artikel_status_artikel']/div/a[1]/text()").extract();
+        if len(author) > 0:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
+        news['publish'] = self.kompas_date_from_url(response.url)
+
+        location = response.xpath("//div[@class='isi_artikel']/p/span/strong/text()").extract()
+        if len(location) > 0:
+            news['location'] = location[0][0:location[0].find(',')]
+        else:
+            if "KOMPAS.com" in news['content']:
+                news['location'] = news['content'][0:news['content'].find(',')]
+            else:
+                news['location'] = " "
+        news['content'] = helper.clear_item(news['content'])
+        return news
+
+    def parse_item_video(self, response, news):
+        news['title'] = helper.html_to_string(response.xpath("//h1").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//p").extract()[0])
+
+        # video.kompas.com not have author
+        news['author'] = " "
+
+        news['publish'] = self.kompas_date_from_url(response.url)
+
+        # video.kompas.com not have location
+        news['location'] = " "
+        news['content'] = helper.clear_item(news['content'])
+        return news
+
+    def parse_item_universal(self, response, news):
+        news['title'] = helper.html_to_string(response.xpath("//head/title").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//p").extract()[0])
+        news['content'] = helper.clear_item(news['content'])
+        news['author'] = " "
+        news['publish'] = self.kompas_date_from_url(response.url)
+        news['location'] = " "
         return news
 
     def kompas_date(self, plain_string):
@@ -358,4 +428,8 @@ class KompasSpider(CrawlSpider):
             return None
 
         u = url.split("/")
+
+        if "foto.kompas.com" in url:
+            return helper.formatted_date(u[5], u[6], u[7], "00", "00") - timedelta(hours=-7)
+
         return helper.formatted_date(u[4], u[5], u[6], "00", "00") - timedelta(hours=-7)

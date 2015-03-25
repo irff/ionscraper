@@ -27,7 +27,7 @@ def item_merge(items):
     return result
 
 def clear_item(item):
-    return item.encode('ascii','ignore').replace("\n","").replace("\t","").replace("\r","")
+    return item.encode('ascii','ignore').replace("\xe2","-").replace("\n","").replace("\t","").replace("\r","")
 
 def tempo_komunika_date(plain_string):
     plain_string = clear_item(plain_string)
