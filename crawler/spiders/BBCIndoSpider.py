@@ -75,15 +75,10 @@ class BbcIndoSpider(CrawlSpider):
         else:
             news['publish'] = news['timestamp']
 
-        if "BIJAKS" in news['content']:
-            news['location'] = news['content'][0:news['content'].find(',')]
-        else:
-            news['location'] = " "
+        news['location'] = " "
         return news
 
 
 
     def bbcindo_date(self, plain_string):
-
-
         return datetime.fromtimestamp(float(plain_string)) + timedelta(hours=-7)
