@@ -1,4 +1,5 @@
 __author__ = 'Kandito Agung, Zaka Zaidan'
+__version__ = 'v1.0.0'
 
 import lxml.etree
 import lxml.html
