@@ -21,7 +21,7 @@ If you want crawling and follow link , Change Kompas
     Change 'parse' method to 'parse_item'
 """
 
-class BijakSpider(CrawlSpider):
+class BbcIndoSpider(CrawlSpider):
     name = "bbcindo"
     allowed_domains = [
 	    "www.bbc.co.uk",
