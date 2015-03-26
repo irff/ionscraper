@@ -25,7 +25,7 @@ class BeritasatuSpider(CrawlSpider):
     allowed_domains = [
         "beritasatu.com",
     ]
-    start_urls = ["http://www.beritasatu.com/ekonomi/260085-sofyan-djalil-indonesia-harus-segera-miliki-kereta-cepat.html"]
+    start_urls = ["http://www.beritasatu.com/asia/260446-pemimpin-junta-thailand-ancam-eksekusi-jurnalis.html"]
 
     rules = (
         Rule(SgmlLinkExtractor(
@@ -46,31 +46,22 @@ class BeritasatuSpider(CrawlSpider):
         if 'login' in response.url or 'utm_source=wp' in response.url or 'sso' in response.url or 'reg' in response.url:
                 raise DropItem("URL not allowed")
 
-        #title = helper.html_to_string(
-        #    response.xpath("//*[@class='mtb10']").extract()[1])
-        #content = helper.html_to_string(helper.item_merge(
-        #    response.xpath("//*[@class='txt-detailberita']/p").extract()))
-        # publish = self.berita_date(helper.html_to_string(
-        #     response.xpath("//*[@class='date']").extract()[0]))
-        # location = helper.clear_item(content.split('--', 1)[0].split(',')[1])
-        # author = helper.clear_item(helper.html_to_string(response.xpath("//*[@class='red']").extract()[-1]))
-        # author = author.split("Redaktur")[-1].split("Sumber")[0][4:]
-        # content = helper.clear_item(content.split('--', 1)[1].rsplit('.', 1)[0])
-
-        # news['title'] = title
-        #news['content'] = helper.clear_item(response.xpath("//body/text()").extract())
-        body = response.xpath("//body").extract()[0]
-        
+        title = response.xpath("//*/h1[contains(@class, 'mtb10') and contains(@class, 'fwnormal') and contains(@class, 'f30')]/text()").extract()[0]
+        publish = response.xpath("//*[contains(@class, 'c6') and contains(@class, 'left') and contains(@class, 'mt5')]/text()").extract()[0]
+        publish = self.berita_date(publish)
+        body = response.xpath("//*[contains(@class,'f14') and contains(@class,'c6') and contains(@class,bodyp)]").extract()
+        body = helper.item_merge(body)
+        author = response.xpath("//*[text()[contains(.,'Penulis')]]/text()").extract()[0].split("Penulis: ")[1]
         body = helper.clear_item(body)
         body = helper.html_to_string(body)
+        body = body.split("-",1)[1].split("Penulis",1)[0]
 
-
-        self.log(">>>>> "+ str(body))
-        # news['publish'] = publish
-        # news['author'] = author
-        # news['location'] = location
-        # news['timestamp'] = datetime.utcnow()
-        news['provider'] = "tempo.co"
+        news['title'] = title
+        news['author'] = author
+        news['publish'] = publish
+        news['timestamp'] = datetime.utcnow()
+        news['provider'] = "beritasatu"
+        news['content'] = body
         yield news
 
     def berita_date(self, plain_string):
