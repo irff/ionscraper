@@ -62,7 +62,7 @@ class KompasSpider(CrawlSpider):
     if use Spider, change function to 'parse'
     if use CrawlSpider, change function to 'parse_item'
     """
-    def parse(self, response):
+    def parse_item(self, response):
         log.msg("Get: %s" % response.url, level=log.DEBUG)
         news = NewsItem()
         news['url'] = response.url

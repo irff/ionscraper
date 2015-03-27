@@ -5,18 +5,18 @@ Online Media Scraper
 List of media
 
 ### Indonesian Media
-- http://www.antaranews.com/
-- http://www.bbc.co.uk/indonesia
-- http://www.beritasatu.com/
-- http://www.bijaks.net/
-- http://www.bisnis.com/
-- http://www.cnnindonesia.com/
+- X http://www.antaranews.com/
+- X http://www.bbc.co.uk/indonesia
+- X http://www.beritasatu.com/
+- X http://www.bijaks.net/
+- X http://www.bisnis.com/
+- X http://www.cnnindonesia.com/
 - http://www.detik.com/
-- http://www.inilah.com/
+- X http://www.inilah.com/
 - http://id.beritasatu.com/home/
 - http://thejakartaglobe.beritasatu.com/
 - http://www.jawapos.com/
-- http://www.kompas.com/
+- X http://www.kompas.com/
 - http://kontan.co.id/
 - http://www.liputan6.com/
 - http://mediaindonesia.com/
