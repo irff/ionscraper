@@ -21,24 +21,24 @@ If you want crawling and follow link , Change Kompas
     Change 'parse' method to 'parse_item'
 """
 
-class CnnIndonsiaSpider(CrawlSpider):
-    name = "cnnindonesia"
+class InilahSpider(CrawlSpider):
+    name = "inilah"
 
     allowed_domains = [
-	    "www.cnnindonesia.com",
+	    "inilah.com",
         ]
 
-    start_urls = ["http://www.cnnindonesia.com/"]
+    start_urls = ["http://www.inilah.com"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
         Rule(SgmlLinkExtractor(
-            allow=('\w{2}[a-zA-Z0-9](/)\d[0-9]{5}'),
-            deny=('facebook.com','twitter.com')),follow=True, callback='parse_item'),
+            allow=('/read'),
+            deny=('facebook.com','twitter.com','/newsletter','/rss')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
-            allow=('indeks','/','\w{2}[a-zA-Z0-9](/)\w[a-zA-Z0-9]{2}'),
-            deny=('facebook.com','twitter.com')),follow=True),
+            allow=('indeks','/','read'),
+            deny=('facebook.com','twitter.com','/newsletter','/rss')),follow=True),
     )
 
     """
@@ -52,9 +52,9 @@ class CnnIndonsiaSpider(CrawlSpider):
         news['url'] = response.url
         """Getting Timestamp and Provider"""
         news['timestamp']= datetime.utcnow()
-        news['provider'] = "cnnindonesia.com"
+        news['provider'] = "inilah.com"
 
-        if "user/login" in response.url or "user/register" in response.url:
+        if "/newsletter" in response.url or "/rss" in response.url:
             raise DropItem("URL not allowed")
 
         yield self.parse_item_default(response, news)
@@ -62,40 +62,40 @@ class CnnIndonsiaSpider(CrawlSpider):
 
 
     def parse_item_default(self, response, news):
-        news['title'] = helper.html_to_string(response.xpath("//h1").extract()[0])
-        news['content'] = helper.item_merge(response.xpath("//div[@id='detail']").extract())
+        news['title'] = helper.html_to_string(response.xpath("//h2").extract()[0])
+        news['content'] = helper.item_merge(response.xpath("//div[@class='txt-detail']").extract())
         news['title'] = helper.clear_item(news['title'])
         news['content'] = helper.clear_item(news['content'])
 
-        author = response.xpath("//strong[@itemprop='author']/text()").extract()
+        author = response.xpath("//div[@class='w-cd']/h6/span/text()").extract()
         if len(author) > 0:
             news['author'] = author[0]
         else:
             news['author'] = " "
 
-        date = response.xpath("//div[@itemprop='datePublished']/text()").extract()
-        if len(date) > 0:
-            news['publish'] = self.cnn_date(date[0])
+        date = response.xpath("//div[@class='w-cd']/h6/text()").extract()
+        if len(date) > 1:
+            news['publish'] = self.inilah_date(helper.clear_item(date[1]))
         else:
             news['publish'] = news['timestamp']
 
-        location = response.xpath("//span[@itemprop='contentLocation']/text()").extract()
-        if len(location):
-            news['location'] = location
+        if "INILAHCOM" in news['content']:
+            news['location'] = news['content'][12:news['content'].find('-')]
         else:
             news['location'] = " "
 
         return news
 
-    def cnn_date(self, plain_string):
-        datetime_string = plain_string.split(" ")
+    def inilah_date(self, plain_string):
+        datetime_string = plain_string.split("|")
+        date_string = datetime_string[1].split(" ")
+        time_string = datetime_string[2].split(" ")
+        time_string = time_string[1].split(":")
 
-        date_string = datetime_string[1].split("/")
-        time_string = datetime_string[2].split(":")
-
-        year = date_string[2]
-        month = date_string[1]
-        day = date_string[0]
+        year = date_string[4]
+        ms = date_string[3]
+        month = helper.get_month(ms)
+        day = date_string[2]
 
         hour =  time_string[0]
         minute = time_string[1]
