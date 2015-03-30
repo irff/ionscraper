@@ -67,14 +67,14 @@ class MerdekaSpider(CrawlSpider):
         news['title'] = helper.clear_item(news['title'])
         news['content'] = helper.clear_item(news['content'])
 
+        author = response.xpath("//div[@id='mdk-body-news-reporter']/a/text()").extract()
+        if len(author) > 0:
+            news['author'] = author[0]
+        else:
+            news['author'] = " "
+
         author_date = response.xpath("//div[@id='mdk-body-news-reporter']/text()").extract()
         if len(author_date) > 1:
-            author = author_date[0]
-            if len(author) > 0:
-                news['author'] = author
-            else:
-                news['author'] = " "
-
             date = author_date[1]
             if len(date) > 0:
                 news['publish'] = self.merdeka_date(date)
