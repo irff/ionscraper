@@ -29,20 +29,20 @@ class SwaSpider(CrawlSpider):
     name = "swa"
 
     allowed_domains = [
-	    "swa.com",
+	    "swa.co.id",
         ]
 
-    start_urls = ["http://www.swa.com"]
+    start_urls = ["http://swa.co.id/youngsterinc/raden-nanda-menyulap-tanaman-herbal-jadi-souvenir-pernikahan"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
         Rule(SgmlLinkExtractor(
-            allow=('/read'),
+            allow=('(swa.co.id/)\w[A-Za-z0-9]{3}'),
             deny=('facebook.com','twitter.com','/newsletter','/rss')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
-            allow=('indeks','/','read'),
-            deny=('facebook.com','twitter.com','/newsletter','/rss')),follow=True),
+            allow=('','(swa.co.id/)\w[A-Za-z0-9]{3}'),
+            deny=('facebook.com','twitter.com','/newsletter','/rss','/author')),follow=True),
     )
 
     """
@@ -56,51 +56,42 @@ class SwaSpider(CrawlSpider):
         news['url'] = response.url
         """Getting Timestamp and Provider"""
         news['timestamp']= datetime.utcnow()
-        news['provider'] = "inilah.com"
-
-        if "/newsletter" in response.url or "/rss" in response.url:
-            raise DropItem("URL not allowed")
+        news['provider'] = "swa.co.id"
 
         yield self.parse_item_default(response, news)
 
 
 
     def parse_item_default(self, response, news):
-        news['title'] = helper.html_to_string(response.xpath("//h2").extract()[0])
-        news['content'] = helper.item_merge(response.xpath("//div[@class='txt-detail']").extract())
+        news['title'] = helper.html_to_string(response.xpath("//h1/a").extract()[0])
+        news['content'] = helper.item_merge(response.xpath("//div[@class='entry-content']").extract())
         news['title'] = helper.clear_item(news['title'])
         news['content'] = helper.clear_item(news['content'])
 
-        author = response.xpath("//div[@class='w-cd']/h6/span/text()").extract()
+        author = response.xpath("//span[@class='author vcard']/a/text()").extract()
         if len(author) > 0:
             news['author'] = author[0]
         else:
             news['author'] = " "
 
-        date = response.xpath("//div[@class='w-cd']/h6/text()").extract()
-        if len(date) > 1:
-            news['publish'] = self.inilah_date(helper.clear_item(date[1]))
+        date = response.xpath("//span[@class='entry-date']/text()").extract()
+        if len(date) > 0:
+            news['publish'] = self.swa_date(helper.clear_item(date[0]))
         else:
             news['publish'] = news['timestamp']
 
-        if "INILAHCOM" in news['content']:
-            news['location'] = news['content'][12:news['content'].find('-')]
-        else:
-            news['location'] = " "
+        news['location'] = " "
 
         return news
 
-    def inilah_date(self, plain_string):
-        datetime_string = plain_string.split("|")
-        date_string = datetime_string[1].split(" ")
-        time_string = datetime_string[2].split(" ")
-        time_string = time_string[1].split(":")
+    def swa_date(self, plain_string):
+        date_string = plain_string.split(" ")
 
-        year = date_string[4]
-        ms = date_string[3]
+        year = date_string[2]
+        ms = date_string[0]
         month = helper.get_month(ms)
-        day = date_string[2]
+        day = date_string[1][0:len(date_string[1]) - 1]
 
-        hour =  time_string[0]
-        minute = time_string[1]
+        hour =  "00"
+        minute = "00"
         return helper.formatted_date(year,month,day,hour,minute) + timedelta(hours=-7)
