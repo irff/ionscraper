@@ -20,14 +20,14 @@ List of media
 - http://kontan.co.id/
 - http://www.liputan6.com/
 - http://mediaindonesia.com/
-- http://www.merdeka.com/
+- X http://www.merdeka.com/
 - http://www.metrotvnews.com/
 - http://okezone.com/
 - http://www.pikiran-rakyat.com/
 - http://www.rmol.co/
 - X http://www.republika.co.id/
 - http://www.suara.com/
-- http://swa.co.id/
+- X http://swa.co.id/
 - X http://www.tempo.co/
 - http://www.viva.co.id/
 
