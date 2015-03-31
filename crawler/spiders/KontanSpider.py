@@ -31,7 +31,7 @@ class KontanSpider(CrawlSpider):
         Rule(SgmlLinkExtractor(
             allow=('news'),
             deny=('reg', 'sso', 'login', 'utm_source=wp')),
-            follow=True),
+            follow=True,callback='parse_item'),
     )
 
     """

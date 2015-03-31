@@ -31,14 +31,14 @@ class BeritasatuSpider(CrawlSpider):
         Rule(SgmlLinkExtractor(
             allow=('indeks'),
             deny=('reg', 'sso', 'login', 'utm_source=wp')),
-            follow=True),
+            follow=True,callback='parse_item'),
     )
 
     """
     if use Spider,  change function to 'parse'
     if use CrawlSpider,  change function to 'parse_item'
     """
-    def parse(self,  response):
+    def parse_item(self,  response):
         self.log('Hi,  this is an item page! %s' % response.url)
         news = NewsItem()
         news['url'] = response.url
