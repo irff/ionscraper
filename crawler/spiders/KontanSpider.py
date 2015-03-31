@@ -20,16 +20,16 @@ If you want to crawl and follow all links ,
 """
 
 
-class BeritasatuSpider(CrawlSpider):
-    name = "beritasatu"
+class KontanSpider(CrawlSpider):
+    name = "kontan"
     allowed_domains = [
-        "beritasatu.com",
+        "kontan.co.id",
     ]
-    start_urls = ["http://www.beritasatu.com/asia/260446-pemimpin-junta-thailand-ancam-eksekusi-jurnalis.html"]
+    start_urls = ["http://kontan.co.id"]
 
     rules = (
         Rule(SgmlLinkExtractor(
-            allow=('indeks'),
+            allow=('news'),
             deny=('reg', 'sso', 'login', 'utm_source=wp')),
             follow=True,callback='parse_item'),
     )
@@ -46,38 +46,37 @@ class BeritasatuSpider(CrawlSpider):
         if 'login' in response.url or 'utm_source=wp' in response.url or 'sso' in response.url or 'reg' in response.url:
                 raise DropItem("URL not allowed")
 
-        title = response.xpath("//*/h1[contains(@class, 'mtb10') and contains(@class, 'fwnormal') and contains(@class, 'f30')]/text()").extract()[0]
-        publish = response.xpath("//*[contains(@class, 'c6') and contains(@class, 'left') and contains(@class, 'mt5')]/text()").extract()[0]
-        publish = self.berita_date(publish)
-        body = response.xpath("//*[contains(@class,'f14') and contains(@class,'c6') and contains(@class,bodyp)]").extract()
+        title = response.xpath("//*/h1[contains(@class, 'cleanprint-title')]/text()").extract()[0]
+        author = response.xpath("//*/*[contains(@class, 'cleanprint-byline')]/text()").extract()[0].strip()
+        author = author.split("Oleh")[1].replace("-","").strip()
+        publish = response.xpath("//*/*[contains(@class, 'cleanprint-dateline')]/text()").extract()[0]
+        #author = tmp.split("-")[0].split("Oleh")[1]
+        body = response.xpath("//*[contains(@class,'content_news')]").extract()
         body = helper.item_merge(body)
-        author = response.xpath("//*[text()[contains(.,'Penulis')]]/text()").extract()[0].split("Penulis: ")[1]
-        body = helper.clear_item(body)
-        body = helper.html_to_string(body)
-        location = body.split("-",1)[0].strip()
-        body = body.split("-",1)[1].split("Penulis",1)[0]
+        body = helper.clear_item(body).strip().split("Editor:",1)[0]
+        location = body.split(".",1)[0]
+        body = body.split(".",1)[1]
 
         news['title'] = title
-        news['author'] = author
-        news['publish'] = publish
+        news['author'] = helper.clear_item(author)
+        news['publish'] = self.kontan_date(helper.clear_item(publish))
         news['timestamp'] = datetime.utcnow()
-        news['provider'] = "beritasatu"
+        news['provider'] = "kontan"
         news['content'] = body
         news['location'] = location
         yield news
 
-    def berita_date(self, plain_string):
+
+    def kontan_date(self, plain_string):
         if plain_string is None:
             return None
-
-        plain_string = helper.html_to_string(plain_string)
-
-        string_date = plain_string.split(", ")[1]
-        string_time = plain_string.split("| ")[1]
+        plain_string = plain_string.split(", ")[1]
+        string_date = plain_string.split(" | ")[0]
+        string_time = plain_string.split(" | ")[1]
         date = string_date.split(" ")
         day = date[0]
         month = helper.get_month(date[1])
         year = date[2]
-        hour = string_time.split(":")[0]
-        minute = string_time.split(":")[1]
-        return helper.formatted_date(str(year),str(month),str(day),str(hour),str(minute))
+        hour = string_time[0:2]
+        minute = string_time[3:5]
+        return helper.formatted_date(year,month,day,hour,minute)
