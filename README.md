@@ -29,7 +29,7 @@ List of media
 - X http://www.suara.com/
 - X http://swa.co.id/
 - X http://www.tempo.co/
-- http://www.viva.co.id/
+- X http://www.viva.co.id/
 
 ### English Media
 - http://www.thejakartapost.com/
