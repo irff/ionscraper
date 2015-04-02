@@ -15,9 +15,9 @@ List of media
 - X http://www.inilah.com/
 - http://id.beritasatu.com/home/
 - http://thejakartaglobe.beritasatu.com/
-- http://www.jawapos.com/
+- X http://www.jawapos.com/
 - X http://www.kompas.com/
-- http://kontan.co.id/
+- X http://kontan.co.id/
 - http://www.liputan6.com/
 - X http://mediaindonesia.com/
 - X http://www.merdeka.com/
