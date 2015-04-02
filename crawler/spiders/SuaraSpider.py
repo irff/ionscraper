@@ -37,7 +37,7 @@ class SuaraSpider(CrawlSpider):
             allow=('\w{1}[a-zA-Z0-9](/)\d[0-9]{3}'),
             deny=('facebook.com','twitter.com')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
-            allow=('/','\w{1}[a-zA-Z0-9](/)\d[0-9]{3}'),
+            allow=('/','\w{1}[a-zA-Z0-9](/)\d[a-zA-Z0-9]{2}'),
             deny=('facebook.com','twitter.com')),follow=True),
     )
 
