@@ -15,18 +15,18 @@ List of media
 - X http://www.inilah.com/
 - http://id.beritasatu.com/home/
 - http://thejakartaglobe.beritasatu.com/
-- http://www.jawapos.com/
+- X http://www.jawapos.com/
 - X http://www.kompas.com/
-- http://kontan.co.id/
-- http://www.liputan6.com/
+- X http://kontan.co.id/
+- X http://www.liputan6.com/
 - X http://mediaindonesia.com/
 - X http://www.merdeka.com/
 - http://www.metrotvnews.com/
-- http://okezone.com/
+- X http://okezone.com/
 - X http://www.pikiran-rakyat.com/
-- http://www.rmol.co/
+- X http://www.rmol.co/
 - X http://www.republika.co.id/
-- http://www.suara.com/
+- X http://www.suara.com/
 - X http://swa.co.id/
 - X http://www.tempo.co/
 - http://www.viva.co.id/
