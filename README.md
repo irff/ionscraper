@@ -14,14 +14,14 @@ List of media
 - http://www.detik.com/
 - X http://www.inilah.com/
 - http://id.beritasatu.com/home/
-- http://thejakartaglobe.beritasatu.com/
+- X http://thejakartaglobe.beritasatu.com/
 - X http://www.jawapos.com/
 - X http://www.kompas.com/
 - X http://kontan.co.id/
 - X http://www.liputan6.com/
 - X http://mediaindonesia.com/
 - X http://www.merdeka.com/
-- http://www.metrotvnews.com/
+- X http://www.metrotvnews.com/
 - X http://okezone.com/
 - X http://www.pikiran-rakyat.com/
 - X http://www.rmol.co/
