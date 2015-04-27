@@ -34,10 +34,10 @@ class PikiranRakyatSpider(CrawlSpider):
         # Extract links matching 'read' and parse them with the spider's method parse_item
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
         Rule(SgmlLinkExtractor(
-            allow=('/node/'),
+            allow=('\d{4}(/)\d{2}(/)\d{2}(/)\w'),
             deny=('facebook.com','twitter.com','/rss','/contact','www/delivery')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
-            allow=('/node/','/','(rakyat.com/)\w[A-Za-z0-9]{3}','(\?page)'),
+            allow=('/tag','/','\d{4}(/)\d{2}(/)\d{2}(/)\w'),
             deny=('facebook.com','twitter.com','/rss','/contact','www/delivery')),follow=True),
     )
 
@@ -58,18 +58,14 @@ class PikiranRakyatSpider(CrawlSpider):
 
 
     def parse_item_default(self, response, news):
-        news['title'] = helper.html_to_string(response.xpath("//h2[@class='title']").extract()[0])
-        news['content'] = helper.item_merge(response.xpath("//div[@class='content']/p").extract())
+        news['title'] = helper.html_to_string(response.xpath("//h1").extract()[0])
+        news['content'] = helper.item_merge(response.xpath("//div[@class='node node-article node-promoted clearfix']/div[3]/div[@class='items-body']").extract())
         news['title'] = helper.clear_item(news['title'])
         news['content'] = helper.clear_item(news['content'])
 
-        author = response.xpath("//div[@class='fcaption']/text()").extract()
-        if len(author) > 0:
-            news['author'] = author[0]
-        else:
-            news['author'] = " "
+        news['author'] = " "
 
-        date = response.xpath("//span[@class='submitted']/text()").extract()
+        date = response.css(".submitted span::attr(content)").extract()
         if len(date) > 0:
             news['publish'] = self.pikiranrakyat_date(date[0])
         else:
@@ -84,14 +80,14 @@ class PikiranRakyatSpider(CrawlSpider):
         return news
 
     def pikiranrakyat_date(self, plain_string):
-        datetime_string = plain_string.split(" ")
+        datetime_string = plain_string.split("T")
 
-        date_string = datetime_string[1].split("/")
-        time_string = datetime_string[3].split(":")
+        date_string = datetime_string[0].split("-")
+        time_string = datetime_string[1].split(":")
 
-        year = date_string[2]
+        year = date_string[0]
         month = date_string[1]
-        day = date_string[0]
+        day = date_string[2]
 
         hour =  time_string[0]
         minute = time_string[1]

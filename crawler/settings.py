@@ -13,12 +13,17 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 
+
+SPIDER_MIDDLEWARES = {
+    'scrapylib.deltafetch.DeltaFetch': 100,
+}
+DELTAFETCH_ENABLED = True
+
 ITEM_PIPELINES = [
   'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline',
 ]
-
-ELASTICSEARCH_SERVER = 'http://127.0.0.1' 
-ELASTICSEARCH_PORT = 9200 
+ELASTICSEARCH_SERVER = 'http://127.0.0.1'
+ELASTICSEARCH_PORT = 9200
 ELASTICSEARCH_INDEX = 'langgar'
 ELASTICSEARCH_TYPE = 'news'
 ELASTICSEARCH_UNIQ_KEY = 'url'
