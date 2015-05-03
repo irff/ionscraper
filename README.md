@@ -32,15 +32,15 @@ List of media
 - X http://www.viva.co.id/
 
 ### English Media
-- http://www.thejakartapost.com/
+- X http://www.thejakartapost.com/
 - http://edition.cnn.com/
-- http://www.bbc.co.uk/
-- http://www.nytimes.com/
+- X http://www.bbc.co.uk/
+- X http://www.nytimes.com/
 - http://www.huffingtonpost.com/
 - http://www.reuters.com/
 - http://www.aljazeera.com/
-- http://www.washingtonpost.com/
-- http://time.com/
+- X http://www.washingtonpost.com/
+- X http://time.com/
 - http://news.nationalgeographic.com/
 - http://www.smh.com.au/
 
