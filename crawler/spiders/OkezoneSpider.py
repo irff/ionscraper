@@ -43,10 +43,10 @@ class OkezoneSpider(CrawlSpider):
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
         Rule(SgmlLinkExtractor(
             allow=('/read','/view'),
-            deny=('/login','/SignUp')),follow=True, callback='parse_item'),
+            deny=('/login','/SignUp','m.okezone')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
             allow=('/'),
-            deny=('/login','/SignUp')),follow=True),
+            deny=('/login','/SignUp','m.okezone')),follow=True),
     )
 
     """
@@ -62,7 +62,7 @@ class OkezoneSpider(CrawlSpider):
         news['timestamp']= datetime.utcnow()
         news['provider'] = "okezone.com"
 
-        if "/register" in response.url or "warungkopi.okezone" in response.url:
+        if "/register" in response.url or "warungkopi.okezone" in response.url or "m.okezone" in response.url:
             raise DropItem("URL not allowed")
 
         yield self.parse_item_default(response, news)
