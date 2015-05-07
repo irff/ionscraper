@@ -62,9 +62,8 @@ class RmolSpider(CrawlSpider):
 
 
     def parse_item_default(self, response, news):
-        news['title'] = helper.html_to_string(response.xpath("//*[@id='primary-column']/font[1]").extract()[0])
+        news['title'] = response.xpath("//head/title/text()").extract()[0]
         news['content'] = helper.item_merge(response.xpath("//*[@id='primary-column']/p[1]").extract())
-        news['title'] = helper.clear_item(news['title'])
         news['content'] = helper.clear_item(news['content'])
 
         author = response.xpath("//*[@id='primary-column']/div[4]/font/text()").extract()
@@ -73,12 +72,9 @@ class RmolSpider(CrawlSpider):
         else:
             news['author'] = " "
 
-        date = response.xpath("//*[@id='primary-column']/font[2]/text()").extract()
+        date = response.url.split("/")
         if len(date) > 0:
-            if 'WIB' in date[0]:
-                news['publish'] = self.rmol_date(date[0])
-            else:
-                news['publish'] = self.rmol_date_from_url(response.url)
+            news['publish'] = self.rmol_date_from_url(date)
         else:
             news['publish'] = news['timestamp']
 
@@ -86,20 +82,5 @@ class RmolSpider(CrawlSpider):
 
         return news
 
-    def rmol_date(self, plain_string):
-        date_string = plain_string.split(" ")
-
-        year = date_string[3]
-        month = helper.get_month(date_string[2])
-        day = date_string[1]
-
-        time_string = date_string[5].split(":")
-        hour =  time_string[0]
-        minute = time_string[1]
-        return helper.formatted_date(year,month,day,hour,minute) + timedelta(hours=-7)
-
     def rmol_date_from_url(self, url):
-        if url == None:
-            return None
-        u = url.split("/")
-        return helper.formatted_date(u[4], u[5], u[6], "00", "00") - timedelta(hours=-7)
+        return helper.formatted_date(url[4], url[5], url[6], "00", "00") - timedelta(hours=-7)
