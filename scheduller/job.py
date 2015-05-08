@@ -6,7 +6,7 @@ from time import sleep
 
 logging.basicConfig(filename='job.log',level=logging.INFO)
 
-URL = "http://128.199.116.101:9009"
+URL = "http://127.0.0.1:9009"
 USER = "ionscraper"
 PASS = "m4nt4bg4n"
 STOP_ALL = URL + "/index.html?action=stopall"
