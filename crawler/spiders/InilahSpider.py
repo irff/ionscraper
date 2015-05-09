@@ -35,10 +35,10 @@ class InilahSpider(CrawlSpider):
         # Rule(SgmlLinkExtractor(allow=('', )), follow=True),
         Rule(SgmlLinkExtractor(
             allow=('/read'),
-            deny=('facebook.com','twitter.com','/newsletter','/rss')),follow=True, callback='parse_item'),
+            deny=('facebook.com','twitter.com','/newsletter','/rss','m.inilah')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
             allow=('indeks','/','read'),
-            deny=('facebook.com','twitter.com','/newsletter','/rss')),follow=True),
+            deny=('facebook.com','twitter.com','/newsletter','/rss','m.inilah')),follow=True),
     )
 
     """
