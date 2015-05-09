@@ -81,24 +81,19 @@ class OkezoneSpider(CrawlSpider):
         else:
             news['author'] = " "
 
-        date = response.xpath("//time/text()").extract()
-        if len(date) > 0:
-            news['publish'] = self.okezone_date(date[0])
-        else:
-            news['publish'] = news['timestamp']
+        news['publish'] = self.okezone_date(response.url)
 
         news['location'] = " "
 
         return news
 
     def okezone_date(self, plain_string):
-        date_string = plain_string.split(" ")
+        date_string = plain_string.split("/")
 
-        year = date_string[3]
-        month = helper.get_month(date_string[2])
-        day = date_string[1]
+        year = date_string[4]
+        month = date_string[5]
+        day = date_string[6]
 
-        time_string = date_string[5].split(":")
-        hour =  time_string[0]
-        minute = time_string[1]
+        hour =  "00"
+        minute = "00"
         return helper.formatted_date(year,month,day,hour,minute) + timedelta(hours=-7)
