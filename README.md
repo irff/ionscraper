@@ -33,11 +33,11 @@ List of media
 
 ### English Media
 - X http://www.thejakartapost.com/
-- http://edition.cnn.com/
+- x http://edition.cnn.com/
 - X http://www.bbc.co.uk/
 - X http://www.nytimes.com/
-- http://www.huffingtonpost.com/
-- http://www.reuters.com/
+- x http://www.huffingtonpost.com/
+- x http://www.reuters.com/
 - http://www.aljazeera.com/
 - X http://www.washingtonpost.com/
 - X http://time.com/
