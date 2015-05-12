@@ -21,10 +21,10 @@ class IdbSpider(CrawlSpider):
     rules = (
         Rule(SgmlLinkExtractor(
             allow=('\w{2}[a-zA-Z0-9](/)\d[0-9]{5}'),
-            deny=('facebook.com','twitter.com')),follow=True, callback='parse_item'),
+            deny=('facebook.com','twitter.com','login.php')),follow=True, callback='parse_item'),
         Rule(SgmlLinkExtractor(
             allow=('indeks','\w{2}[a-zA-Z0-9](/)\w[a-zA-Z0-9]{2}'),
-            deny=('facebook.com','twitter.com')),follow=True),
+            deny=('facebook.com','twitter.com','login.php')),follow=True),
     )
 
     """
@@ -58,7 +58,7 @@ class IdbSpider(CrawlSpider):
         news['author'] = author
         news['publish'] = publish
         news['timestamp'] = datetime.utcnow()
-        news['provider'] = self.name
+        news['provider'] = "id.beritasatu.com"
         news['content'] = body
         news['location'] = location
         yield news
