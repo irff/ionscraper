@@ -21,14 +21,14 @@ If you want crawling and follow link , Change Kompas
     Change 'parse' method to 'parse_item'
 """
 
-class WashingtonSpider(Spider):
+class WashingtonSpider(CrawlSpider):
     name = "washington"
 
     allowed_domains = [
 	    "www.washingtonpost.com",
         ]
 
-    start_urls = ["http://www.washingtonpost.com/world/asia_pacific/envoy-says-indonesia-leader-too-busy-to-take-australia-call/2015/03/26/87d55c2a-d385-11e4-8b1e-274d670aa9c9_story.html"]
+    start_urls = ["http://www.washingtonpost.com"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
@@ -45,7 +45,7 @@ class WashingtonSpider(Spider):
     if use Spider, change function to 'parse'
     if use CrawlSpider, change function to 'parse_item'
     """
-    def parse(self, response):
+    def parse_item(self, response):
         log.msg("Get: %s" % response.url, level=log.INFO)
 
         news = NewsItem()
@@ -73,9 +73,9 @@ class WashingtonSpider(Spider):
         else:
             news['author'] = " "
 
-        date = response.xpath("//span[@class='pb-timestamp']/text()").extract()
-        if len(date) > 0:
-            news['publish'] = self.wp_date(date[0])
+        date = response.url.split("/")
+        if len(date) > 8:
+            news['publish'] = self.wp_date(date)
         else:
             news['publish'] = news['timestamp']
 
@@ -87,17 +87,11 @@ class WashingtonSpider(Spider):
 
         return news
 
-    def wp_date(self, plain_string):
-        log.msg(plain_string, log.CRITICAL)
-        datetime_string = plain_string.split(" ")
+    def wp_date(self, date_string):
+        year = date_string[6]
+        month = date_string[7]
+        day = date_string[8]
 
-        date_string = datetime_string[1].split("/")
-        time_string = datetime_string[2].split(":")
-
-        year = date_string[2]
-        month = date_string[1]
-        day = date_string[0]
-
-        hour =  time_string[0]
-        minute = time_string[1]
+        hour =  "00"
+        minute = "00"
         return helper.formatted_date(year,month,day,hour,minute) + timedelta(hours=-7)
