@@ -1,16 +1,74 @@
 00 00 * * * python /home/ionscraper/scheduller/job.py start crawl_antara
 20 00 * * * python /home/ionscraper/scheduller/job.py start crawl_bbcindo
-30 01 * * * python /home/ionscraper/scheduller/job.py start crawl_beritasatu
+30 00 * * * python /home/ionscraper/scheduller/job.py start crawl_beritasatu
 00 01 * * * python /home/ionscraper/scheduller/job.py start crawl_bijaks
-20 02 * * * python /home/ionscraper/scheduller/job.py start crawl_bisnis
-40 02 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
-00 03 * * * python /home/ionscraper/scheduller/job.py start crawl_jawapos
-20 03 * * * python /home/ionscraper/scheduller/job.py start crawl_kontan
-40 04 * * * python /home/ionscraper/scheduller/job.py start crawl_swa
-00 04 * * * python /home/ionscraper/scheduller/job.py start crawl_viva
-20 02 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+20 01 * * * python /home/ionscraper/scheduller/job.py start crawl_bisnis
+40 01 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+00 02 * * * python /home/ionscraper/scheduller/job.py start crawl_jawapos
+20 02 * * * python /home/ionscraper/scheduller/job.py start crawl_kontan
+40 02 * * * python /home/ionscraper/scheduller/job.py start crawl_swa
+00 03 * * * python /home/ionscraper/scheduller/job.py start crawl_viva
+20 03 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
 40 03 * * * python /home/ionscraper/scheduller/job.py start crawl_thejakartapost
-00 03 * * * python /home/ionscraper/scheduller/job.py start crawl_bbc
+00 04 * * * python /home/ionscraper/scheduller/job.py start crawl_bbc
 20 04 * * * python /home/ionscraper/scheduller/job.py start crawl_nytimes
 40 04 * * * python /home/ionscraper/scheduller/job.py start crawl_washingtonpost
 00 05 * * * python /home/ionscraper/scheduller/job.py start crawl_detik
+
+
+00 06 * * * python /home/ionscraper/scheduller/job.py start crawl_antara
+20 06 * * * python /home/ionscraper/scheduller/job.py start crawl_bbcindo
+30 06 * * * python /home/ionscraper/scheduller/job.py start crawl_beritasatu
+00 07 * * * python /home/ionscraper/scheduller/job.py start crawl_bijaks
+20 07 * * * python /home/ionscraper/scheduller/job.py start crawl_bisnis
+40 07 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+00 08 * * * python /home/ionscraper/scheduller/job.py start crawl_jawapos
+20 08 * * * python /home/ionscraper/scheduller/job.py start crawl_kontan
+40 08 * * * python /home/ionscraper/scheduller/job.py start crawl_swa
+00 09 * * * python /home/ionscraper/scheduller/job.py start crawl_viva
+20 09 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+40 09 * * * python /home/ionscraper/scheduller/job.py start crawl_thejakartapost
+00 10 * * * python /home/ionscraper/scheduller/job.py start crawl_bbc
+20 10 * * * python /home/ionscraper/scheduller/job.py start crawl_nytimes
+40 10 * * * python /home/ionscraper/scheduller/job.py start crawl_washingtonpost
+00 11 * * * python /home/ionscraper/scheduller/job.py start crawl_detik
+
+
+00 12 * * * python /home/ionscraper/scheduller/job.py start crawl_antara
+20 12 * * * python /home/ionscraper/scheduller/job.py start crawl_bbcindo
+30 12 * * * python /home/ionscraper/scheduller/job.py start crawl_beritasatu
+00 13 * * * python /home/ionscraper/scheduller/job.py start crawl_bijaks
+20 13 * * * python /home/ionscraper/scheduller/job.py start crawl_bisnis
+40 13 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+00 14 * * * python /home/ionscraper/scheduller/job.py start crawl_jawapos
+20 14 * * * python /home/ionscraper/scheduller/job.py start crawl_kontan
+40 14 * * python /home/ionscraper/scheduller/job.py start crawl_swa
+00 15 * * * python /home/ionscraper/scheduller/job.py start crawl_viva
+20 15 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+40 15 * * * python /home/ionscraper/scheduller/job.py start crawl_thejakartapost
+00 16 * * * python /home/ionscraper/scheduller/job.py start crawl_bbc
+20 16 * * * python /home/ionscraper/scheduller/job.py start crawl_nytimes
+40 16 * * * python /home/ionscraper/scheduller/job.py start crawl_washingtonpost
+00 17 * * * python /home/ionscraper/scheduller/job.py start crawl_detik
+
+
+00 18 * * * python /home/ionscraper/scheduller/job.py start crawl_antara
+20 18 * * * python /home/ionscraper/scheduller/job.py start crawl_bbcindo
+30 18 * * * python /home/ionscraper/scheduller/job.py start crawl_beritasatu
+00 19 * * * python /home/ionscraper/scheduller/job.py start crawl_bijaks
+20 19 * * * python /home/ionscraper/scheduller/job.py start crawl_bisnis
+40 19 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+00 20 * * * python /home/ionscraper/scheduller/job.py start crawl_jawapos
+20 20 * * * python /home/ionscraper/scheduller/job.py start crawl_kontan
+40 20 * * * python /home/ionscraper/scheduller/job.py start crawl_swa
+00 21 * * * python /home/ionscraper/scheduller/job.py start crawl_viva
+20 21 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
+40 21 * * * python /home/ionscraper/scheduller/job.py start crawl_thejakartapost
+00 22 * * * python /home/ionscraper/scheduller/job.py start crawl_bbc
+20 22 * * * python /home/ionscraper/scheduller/job.py start crawl_nytimes
+40 22 * * * python /home/ionscraper/scheduller/job.py start crawl_washingtonpost
+00 23 * * * python /home/ionscraper/scheduller/job.py start crawl_detik
+
+18 * * * * python /home/ionscraper/scheduller/job.py stop all
+38 * * * * python /home/ionscraper/scheduller/job.py stop all
+58 * * * * python /home/ionscraper/scheduller/job.py stop all
