@@ -11,22 +11,27 @@ USER = "ionscraper"
 PASS = "m4nt4bg4n"
 STOP_ALL = URL + "/index.html?action=stopall"
 
+date_log = "[" + str(datetime.now()) + "]"
 if len(sys.argv) < 3:
-    logging.info(date_log + "Error command")
+    logging.info(date_log + " Error command")
     exit()
 
 if sys.argv[1] not in ["start","stop","restart"]:
-    logging.info(date_log + "Error command")
+    logging.info(date_log + " Error command")
     exit()
+
 
 action = sys.argv[1]
 
-requests.get(STOP_ALL, auth=(USER, PASS))
-sleep(30)
 proccessname = sys.argv[2]
+
+if proccessname == "all":
+    requests.get(STOP_ALL, auth=(USER, PASS))
+    logging.info(date_log + " STOP ALL")
+    exit()
+
 command = URL + "/index.html?processname=" + proccessname + "&action=" + action
 
 requests.get(command, auth=(USER, PASS))
-date_log = "[" + str(datetime.now()) + "]"
-logging.info(date_log + "starting " + proccessname + " command: " + command)
+logging.info(date_log + " starting " + proccessname + " command: " + command)
 exit()
