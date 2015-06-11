@@ -113,11 +113,7 @@ class BisnisSpider(CrawlSpider):
         else:
             news['author'] = " "
 
-        date = response.xpath("//div[@class='col-md-8 col-sm-12 col-xs-12 details']/span[@class='date']/text()").extract()
-        if len(date) > 0:
-            news['publish'] = self.bisnis_date(date[0])
-        else:
-            news['publish'] = self.bisnis_date_from_url(response.url)
+        news['publish'] = self.bisnis_date_from_url(response.url)
 
         if "Bisnis.com" in news['content']:
             news['location'] = news['content'][news['content'].find(','):news['content'].find('-')]
@@ -158,12 +154,7 @@ class BisnisSpider(CrawlSpider):
         else:
             news['author'] = " "
 
-        date = response.xpath("//span[@class='date']").extract()
-        if len(date) > 0:
-            date[0] = helper.html_to_string(date[0])
-            news['publish'] = self.bisnis_regional_date(date[0])
-        else:
-            news['publish'] = self.bisnis_date_from_url(response.url)
+        news['publish'] = self.bisnis_date_from_url(response.url)
 
         if "Bisnis.com" in news['content']:
             news['location'] = news['content'][news['content'].find(','):news['content'].find('-')]

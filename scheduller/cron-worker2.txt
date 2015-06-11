@@ -42,7 +42,7 @@
 40 13 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
 00 14 * * * python /home/ionscraper/scheduller/job.py start crawl_jawapos
 20 14 * * * python /home/ionscraper/scheduller/job.py start crawl_kontan
-40 14 * * python /home/ionscraper/scheduller/job.py start crawl_swa
+40 14 * * * python /home/ionscraper/scheduller/job.py start crawl_swa
 00 15 * * * python /home/ionscraper/scheduller/job.py start crawl_viva
 20 15 * * * python /home/ionscraper/scheduller/job.py start crawl_jakartaglobe
 40 15 * * * python /home/ionscraper/scheduller/job.py start crawl_thejakartapost
