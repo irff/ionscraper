@@ -52,7 +52,7 @@ class TempoSpider(CrawlSpider):
             author = helper.html_to_string(response.xpath("//strong").extract()[-2])
             publish = helper.tempo_komunika_date(publish)
         else:
-            title = helper.html_to_string(response.xpath("//*[@class='title']").extract()[0])
+            title = helper.html_to_string(response.xpath("//div[@class='artikel']/h1").extract()[0])
             content = helper.html_to_string(helper.item_merge(response.xpath("//*[@class='artikel']/p").extract()))
             details = response.xpath("//*[@class='artikel']/p/strong/text()").extract()
             if "populer" in details[-1]:
@@ -62,7 +62,7 @@ class TempoSpider(CrawlSpider):
                 location = helper.html_to_string(response.xpath("//strong").extract()[-2])
                 author = content.rsplit('.',1)[1]
             content = content.split('-',1)[1].rsplit('.',1)[0]
-            publish =  self.tempo_date(helper.html_to_string(response.xpath("//*[@class='submitted']").extract()[0]))
+            publish =  self.tempo_date(helper.html_to_string(response.xpath("//div[@class='block-tanggal']/p").extract()[0]))
             
         news['title'] = title
         news['content'] = content
