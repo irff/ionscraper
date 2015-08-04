@@ -7,6 +7,7 @@
 #
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
+import logging
 
 BOT_NAME = 'crawler'
 
@@ -22,11 +23,12 @@ DELTAFETCH_ENABLED = True
 ITEM_PIPELINES = [
   'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline',
 ]
-ELASTICSEARCH_SERVER = 'http://127.0.0.1'
+ELASTICSEARCH_SERVER = 'http://52.25.206.143'
 ELASTICSEARCH_PORT = 9200
 ELASTICSEARCH_INDEX = 'langgar'
 ELASTICSEARCH_TYPE = 'news'
 ELASTICSEARCH_UNIQ_KEY = 'url'
+ELASTICSEARCH_LOG_LEVEL = logging.DEBUG
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crawler (+http://www.yourdomain.com)'
