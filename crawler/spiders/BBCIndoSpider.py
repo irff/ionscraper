@@ -24,10 +24,10 @@ If you want crawling and follow link , Change Kompas
 class BbcIndoSpider(CrawlSpider):
     name = "bbcindo"
     allowed_domains = [
-	    "www.bbc.co.uk",
+	    "www.bbc.com",
         ]
 
-    start_urls = ["http://www.bbc.co.uk/indonesia"]
+    start_urls = ["http://www.bbc.com/indonesia"]
 
     rules = (
         # Extract links matching 'read' and parse them with the spider's method parse_item
