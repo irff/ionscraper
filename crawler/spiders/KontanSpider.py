@@ -48,7 +48,10 @@ class KontanSpider(CrawlSpider):
 
         title = response.xpath("//*/h1[contains(@class, 'cleanprint-title')]/text()").extract()[0]
         author = response.xpath("//*/*[contains(@class, 'cleanprint-byline')]/text()").extract()[0].strip()
-        author = author.split("Oleh")[1].replace("-","").strip()
+        if len(author.split("Oleh")) > 1:
+            author = author.split("Oleh")[1].replace("-","").strip()
+        else:
+            author = " "
         publish = response.xpath("//*/*[contains(@class, 'cleanprint-dateline')]/text()").extract()[0]
         #author = tmp.split("-")[0].split("Oleh")[1]
         body = response.xpath("//*[contains(@class,'content_news')]").extract()

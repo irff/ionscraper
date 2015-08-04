@@ -73,6 +73,7 @@ class BbcIndoSpider(CrawlSpider):
         if len(date) > 0:
             news['publish'] = self.bbcindo_date(date[0])
         else:
+            logging.log(logging.WARNING, helper.DATE_WARN)
             news['publish'] = news['timestamp']
 
         news['location'] = " "

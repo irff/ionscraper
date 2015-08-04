@@ -5,31 +5,31 @@ Online Media Scraper
 List of media
 
 ### Indonesian Media
-- X http://www.antaranews.com/
-- X http://www.bbc.co.uk/indonesia
-- X http://www.beritasatu.com/
-- X http://www.bijaks.net/
-- X http://www.bisnis.com/
-- X http://www.cnnindonesia.com/
+- http://www.antaranews.com/
+- http://www.bbc.co.uk/indonesia
+- http://www.beritasatu.com/
+- http://www.bijaks.net/
+- http://www.bisnis.com/
+- http://www.cnnindonesia.com/
 - http://www.detik.com/
-- X http://www.inilah.com/
+- http://www.inilah.com/
 - http://id.beritasatu.com/home/
-- X http://thejakartaglobe.beritasatu.com/
-- X http://www.jawapos.com/
-- X http://www.kompas.com/
-- X http://kontan.co.id/
-- X http://www.liputan6.com/
-- X http://mediaindonesia.com/
-- X http://www.merdeka.com/
-- X http://www.metrotvnews.com/
-- X http://okezone.com/
-- X http://www.pikiran-rakyat.com/
-- X http://www.rmol.co/
-- X http://www.republika.co.id/
-- X http://www.suara.com/
-- X http://swa.co.id/
-- X http://www.tempo.co/
-- X http://www.viva.co.id/
+- http://thejakartaglobe.beritasatu.com/
+- http://www.jawapos.com/
+- http://www.kompas.com/
+- http://kontan.co.id/
+- http://www.liputan6.com/
+- http://mediaindonesia.com/
+- http://www.merdeka.com/
+- http://www.metrotvnews.com/
+- http://okezone.com/
+- http://www.pikiran-rakyat.com/
+- http://www.rmol.co/
+- http://www.republika.co.id/
+- http://www.suara.com/
+- http://swa.co.id/
+- http://www.tempo.co/
+- http://www.viva.co.id/
 
 ### English Media
 - X http://www.thejakartapost.com/

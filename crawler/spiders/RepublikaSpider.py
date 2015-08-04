@@ -72,7 +72,7 @@ class RepublikaSpider(CrawlSpider):
         news['author'] = author
         news['location'] = location
         news['timestamp'] = datetime.utcnow()
-        news['provider'] = "tempo.co"
+        news['provider'] = "republika.co"
         yield news
 
     def republika_date(self, plain_string):

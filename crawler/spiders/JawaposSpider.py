@@ -46,8 +46,9 @@ class JawaposSpider(CrawlSpider):
         body = helper.clear_item(body)
         body = helper.html_to_string(body)
         tmp = response.xpath("//*[contains(@class,'body-berita')]/p/strong/text()").extract()
-        location = tmp[0]
-        author = tmp[1]
+        if len(tmp) > 1:
+            location = tmp[0]
+            author = tmp[1]
 
         news['title'] = title
         news['author'] = author

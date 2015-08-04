@@ -70,7 +70,7 @@ class KompasSpider(CrawlSpider):
         news['timestamp']= datetime.utcnow()
         news['provider'] = "kompas.com"
 
-        if "/login/" in response.url or "utm_source=wp" in response.url or "/sso/" in response.url:
+        if "/login/" in response.url or "utm_source=wp" in response.url or "/sso/" in response.url or "login.kompas" in response.url:
             raise DropItem("URL not allowed")
 
         if "nasional.kompas.com" in response.url:
@@ -230,10 +230,10 @@ class KompasSpider(CrawlSpider):
         return news
 
     def parse_item_health(self, response, news):
-        news['title'] = helper.html_to_string(response.xpath("//div[@class='isi_artikel']/h1").extract()[0])
-        news['content'] = helper.html_to_string(response.xpath("//div[@class='isi_berita pt_5']").extract()[0])
+        news['title'] = helper.html_to_string(response.xpath("h2").extract()[0])
+        news['content'] = helper.html_to_string(response.xpath("//div[@class='kcm-read-body clearfix']/div[2]").extract()[0])
 
-        author = response.xpath("//div[@class='left']/div[1]/span[1]/text()").extract();
+        author = response.xpath(".//*[@id='leftside']/div[1]/div[2]/div[2]/div/div[2]/table/tbody/tr[1]/td[2]/text()").extract();
         if len(author) > 0 and "WIB" not in author[0]:
             news['author'] = author[0]
         else:
@@ -243,24 +243,10 @@ class KompasSpider(CrawlSpider):
             else:
                 news['author'] = " "
 
-        date = response.xpath("//div[@class='left']/div[1]/span[1]/text()").extract()
-        if len(date) > 0 and "WIB" in date[0]:
-            news['publish'] = self.kompas_date(date[0])
-        else:
-            date_down = response.xpath("//div[@class='left']/div[1]/span[2]/text()").extract();
-            if len(date_down) > 0:
-                news['publish'] = self.kompas_date(date_down[0])
-            else:
-                news['publish'] = self.kompas_date_from_url(response.url)
+        news['publish'] = self.kompas_date_from_url(response.url)
 
         location = response.xpath("//div[@class='isi_berita pt_5']/p/strong/text()").extract()
-        if len(location) > 0:
-            news['location'] = location[0][0:location[0].find(',')]
-        else:
-            if "KOMPAS.com" in news['content']:
-                news['location'] = news['content'][0:news['content'].find(',')]
-            else:
-                news['location'] = " "
+        news['location'] = " "
         news['content'] = helper.clear_item(news['content'])
         return news
 

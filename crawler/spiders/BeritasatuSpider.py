@@ -66,13 +66,16 @@ class BeritasatuSpider(CrawlSpider):
         body = helper.clear_item(body)
         body = helper.html_to_string(body)
         location = body.split("-",1)[0].strip()
-        body = body.split("-",1)[1].split("Penulis",1)[0]
+
+        if len(body.split("-",1)) > 1:
+            if len(body.split("-",1)[1].split("Penulis",1)) > 0:
+                body = body.split("-",1)[1].split("Penulis",1)[0]
 
         news['title'] = title
         news['author'] = author
         news['publish'] = publish
         news['timestamp'] = datetime.utcnow()
-        news['provider'] = "beritasatu"
+        news['provider'] = "beritasatu.com"
         news['content'] = body
         news['location'] = location
         yield news

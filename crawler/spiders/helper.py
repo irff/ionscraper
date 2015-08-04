@@ -7,6 +7,10 @@ from lxml.html.clean import Cleaner
 import re
 from datetime import datetime
 
+# LOG MSG
+DATE_WARN = 'Date not found, using timestamp'
+CONTENT_WARN = 'Content not found'
+
 def html_to_string(string_data):
     string_data = clear_script(string_data)
     data = lxml.html.fromstring(string_data)
@@ -44,7 +48,7 @@ def formatted_date(year,month,day,hour,minute):
     datetime_string = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00.000"
     return datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S.%f")
 
-def formatted_date_with_second(year,month,day,hour,minute, second):
+def formatted_date_with_second(year,month,day,hour,minute,second):
     datetime_string = ""
     datetime_string = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second + ".000"
     return datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S.%f")

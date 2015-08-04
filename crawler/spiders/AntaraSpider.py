@@ -9,6 +9,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.exceptions import DropItem
 from datetime import datetime, timedelta
 import helper
+import logging
 
 """
 If you want to debug for a page,
@@ -84,6 +85,7 @@ class AntaraSpider(CrawlSpider):
         if len(date) > 0:
             news['publish'] = self.antara_date(date[0])
         else:
+            logging.log(logging.WARNING, helper.DATE_WARN)
             news['publish'] = news['timestamp']
 
         if "(ANTARA News)" in news['content']:
@@ -106,6 +108,7 @@ class AntaraSpider(CrawlSpider):
         if len(date) > 0:
             news['publish'] = self.antara_date_otomotif(date[0])
         else:
+            logging.log(logging.WARNING, helper.DATE_WARN)
             news['publish'] = news['timestamp']
 
         if "(ANTARA News)" in news['content']:
@@ -132,6 +135,7 @@ class AntaraSpider(CrawlSpider):
         if len(date) > 0:
             news['publish'] = self.antara_date_otomotif(date[0])
         else:
+            logging.log(logging.WARNING, helper.DATE_WARN)
             news['publish'] = news['timestamp']
 
         content = response.xpath("//div[@class='news_content']").extract()
@@ -157,6 +161,7 @@ class AntaraSpider(CrawlSpider):
 
         date = response.xpath("//div[@class='date mt10']/text()").extract()
         if len(date) > 0:
+            logging.log(logging.WARNING, helper.DATE_WARN)
             news['publish'] = self.antara_date_otomotif(date[0])
         else:
             news['publish'] = news['timestamp']
