@@ -32,17 +32,17 @@ List of media
 - http://www.viva.co.id/
 
 ### English Media
-- X http://www.thejakartapost.com/
-- X http://edition.cnn.com/
-- X http://www.bbc.co.uk/
-- X http://www.nytimes.com/
-- X http://www.huffingtonpost.com/
-- X http://www.reuters.com/
-- X http://www.aljazeera.com/
-- X http://www.washingtonpost.com/
-- X http://time.com/
-- X http://news.nationalgeographic.com/
-- X http://www.smh.com.au/
+- http://www.thejakartapost.com/
+- http://edition.cnn.com/
+- http://www.bbc.co.uk/
+- http://www.nytimes.com/
+- http://www.huffingtonpost.com/
+- http://www.reuters.com/
+- http://www.aljazeera.com/
+- http://www.washingtonpost.com/
+- http://time.com/
+- http://news.nationalgeographic.com/
+- http://www.smh.com.au/
 
 ## Metadata
 
