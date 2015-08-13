@@ -67,7 +67,7 @@ class VivaSpider(CrawlSpider):
         news['timestamp']= datetime.utcnow()
         news['provider'] = "viva.co.id"
 
-        if "m.viva.co.id" in response.url:
+        if "m.viva.co.id" in response.url or "m.news.viva.co.id" in response.url:
             raise DropItem("URL not allowed")
 
         if 'foto.viva' in response.url:
