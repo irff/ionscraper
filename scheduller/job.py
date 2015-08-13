@@ -6,9 +6,9 @@ from time import sleep
 
 logging.basicConfig(filename='job.log',level=logging.INFO)
 
-URL = "http://127.0.0.1:9009"
+URL = "http://127.0.0.1:9001"
 USER = "ionscraper"
-PASS = "m4nt4bg4n"
+PASS = "m@nt@bg@n"
 STOP_ALL = URL + "/index.html?action=stopall"
 
 date_log = "[" + str(datetime.now()) + "]"
